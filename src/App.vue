@@ -1,6 +1,5 @@
 <template>
     <router-view />
-撒旦撒阿斯顿
 </template>
 
 <script>

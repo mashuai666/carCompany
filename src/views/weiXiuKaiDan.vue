@@ -261,7 +261,7 @@
         <el-button size="small" type="primary" @click="dialogVisible = true">选择服务项目</el-button>
         <el-button size="small" type="primary" @click="dialogVisibleB = true">新增服务项目</el-button>
       </div>
-      <el-table :data="tableData" border show-summary style="width: 100%;marginTop:25px">
+      <el-table :data="tableData" border show-summary style="width: 100%;marginTop:15px;margin-bottom:25px">
         <el-table-column type="index" width="50"></el-table-column>
         <el-table-column prop="name" label="项目名称"></el-table-column>
         <el-table-column prop="amount1" width="100" label="金额/元"></el-table-column>
@@ -269,7 +269,7 @@
         <el-table-column prop="amount2" width="100" label="应收/元"></el-table-column>
         <el-table-column prop="amount3" width="150" label="施工人员"></el-table-column>
         <el-table-column label="操作" width="100">
-          <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">Delete</el-button>
+          <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
         </el-table-column>
       </el-table>
 
@@ -340,6 +340,131 @@
       </el-dialog>
 
 
+      <h2>使用商品</h2>
+      <div class="shangpinMenu">
+        <el-button size="small" type="primary" @click="shangpinS = true">选择使用商品</el-button>
+      </div>
+      <el-table :data="tableData" border show-summary style="width: 100%;marginTop:15px;margin-bottom:25px">
+        <el-table-column type="index" width="50"></el-table-column>
+        <el-table-column prop="name" label="商品名称"></el-table-column>
+        <el-table-column prop="name" label="品牌"></el-table-column>
+        <el-table-column prop="amount1" width="100" label="销售单价/元"></el-table-column>
+        <el-table-column prop="amount1" width="100" label="数量"></el-table-column>
+        <el-table-column prop="amount2" width="100" label="总价"></el-table-column>
+        <el-table-column prop="name" label="适用车型"></el-table-column>
+        <el-table-column label="操作" width="100">
+          <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+        </el-table-column>
+      </el-table>
+
+      <!-- 使用商品弹出窗口 -->
+      <el-dialog title="使用商品" v-model="shangpinS" width="80%">
+          <el-form  ref="form" :model="form" inline="true">
+            <el-form-item>
+              <el-input class="searchMargin" width="55" placeholder="商品名称"></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-input class="searchMargin" width="55" placeholder="品牌"></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-input class="searchMargin"  width="55" placeholder="规格型号"></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-input class="searchMargin" width="55" placeholder="出厂编码"></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-input class="searchMargin" width="55" placeholder="OE号"></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-input class="searchMargin" width="55" placeholder="适用车型"></el-input>
+            </el-form-item>
+            <el-form-item label="是否有库存">
+              <el-switch
+                  v-model="switchIs"
+                  active-color="#13ce66"
+                  inactive-color="#ff4949">
+              </el-switch>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" size="mini" style="margin-left: 20px">查询</el-button>
+            </el-form-item>
+          </el-form>
+
+        <el-table :data="tableData" border show-summary style="width: 100%;marginTop:25px">
+          <el-table-column type="selection" width="55"></el-table-column>
+          <el-table-column prop="name" label="商品名称"></el-table-column>
+          <el-table-column prop="name" label="品牌"></el-table-column>
+          <el-table-column prop="name" label="规格型号"></el-table-column>
+          <el-table-column prop="name" label="出场编码"></el-table-column>
+          <el-table-column prop="name" label="OE号"></el-table-column>
+          <el-table-column prop="amount1" width="100" label="销售价/元"></el-table-column>
+          <el-table-column prop="amount2" width="100" label="库存"></el-table-column>
+          <el-table-column prop="amount2" width="100" label="单位"></el-table-column>
+          <el-table-column prop="name" label="适用车型"></el-table-column>
+          <el-table-column label="操作" width="100">
+            <el-button
+                size="mini"
+                type="primary"
+                @click="handleDelete(scope.$index, scope.row)"
+                plain
+            >选择
+            </el-button>
+          </el-table-column>
+        </el-table>
+
+        <template v-slot:footer>
+          <span class="dialog-footer">
+            <el-button @click="shangpinS = false">取 消</el-button>
+            <el-button type="primary" @click="shangpinS = false">确 定</el-button>
+          </span>
+        </template>
+      </el-dialog>
+
+
+      <h2>附加费</h2>
+      <div class="shangpinMenu">
+        <el-button size="small" type="primary" @click="fuJia = true">新增附加费</el-button>
+      </div>
+      <el-table :data="tableData" border show-summary style="width: 100%;marginTop:15px;margin-bottom:25px">
+        <el-table-column type="index" width="50"></el-table-column>
+        <el-table-column prop="name" label="附加费名称"></el-table-column>
+        <el-table-column prop="amount1"  label="金额"></el-table-column>
+        <el-table-column prop="amount1"  label="备注"></el-table-column>
+        <el-table-column label="操作" width="100">
+          <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+        </el-table-column>
+      </el-table>
+
+      <!-- 新增附加费弹出窗口 -->
+      <el-dialog title="新增附加费" v-model="fuJia" width="80%">
+        <el-form  ref="form" :model="form" >
+          <el-form-item label="附加费名称">
+            <el-input class="searchMargin" width="55" placeholder="附加费名称"></el-input>
+          </el-form-item>
+          <el-form-item label="金额/元">
+            <el-input class="searchMargin" width="55" placeholder="金额/元"></el-input>
+          </el-form-item>
+          <el-form-item label="备注">
+            <el-input class="searchMargin"  width="55" placeholder="备注"></el-input>
+          </el-form-item>
+        </el-form>
+        <template v-slot:footer>
+          <span class="dialog-footer">
+            <el-button @click="fuJia = false">取 消</el-button>
+            <el-button type="primary" @click="fuJia = false">确 定</el-button>
+          </span>
+        </template>
+      </el-dialog>
+
+      <el-card>
+        <div class="botCard">
+           <div >总计：<span style="color:red;font-weight: bold;font-size: 20px">￥120.1</span> 元</div>
+          <div >
+            <el-button type="primary" plain>提交</el-button>
+            <el-button type="warning" plain>保存</el-button>
+          </div>
+        </div>
+      </el-card>
     </div>
   </div>
 </template>
@@ -349,6 +474,10 @@ export default {
   name: "tabs",
   data() {
     return {
+      switchIs:true,
+      shangpinS: false,
+      shangpinSB: false,
+      fuJia:false,
       optinonValue: '',
       options: [{
         value: '选项1',
@@ -412,96 +541,96 @@ export default {
       ruleForm: {
         name: "", region: "", date1: "",
         date2:
-    "",
+            "",
         delivery:
-    false,
+            false,
         type:
-    [],
+            [],
         resource:
-    "",
+            "",
         desc:
-    "",
+            "",
         input1:
-    "",
+            "",
         input2:
-    "",
+            "",
         input3:
-    "",
+            "",
         select:
-    ""
-  }
-  ,
-    rules: {
-      name: [
-        {required: true, message: "请输入活动名称", trigger: "blur"},
-        {min: 3, max: 5, message: "长度在 3 到 5 个字符", trigger: "blur"}
-      ], region:
-      [
-        {required: true, message: "请选择活动区域", trigger: "change"}
-      ], date1:
-      [
-        {
-          type: "date",
-          required: true,
-          message: "请选择日期",
-          trigger: "change"
-        }
-      ],
-          date2:
-      [
-        {
-          type: "date",
-          required: true,
-          message: "请选择时间",
-          trigger: "change"
-        }
-      ], type:
-      [
-        {
-          type: "array",
-          required: true,
-          message: "请至少选择一个活动性质",
-          trigger: "change"
-        }
-      ],
-          resource:
-      [
-        {required: true, message: "请选择活动资源", trigger: "change"}
-      ], desc:
-      [{required: true, message: "请填写活动形式", trigger: "blur"}]
-    }
-  ,
+            ""
+      }
+      ,
+      rules: {
+        name: [
+          {required: true, message: "请输入活动名称", trigger: "blur"},
+          {min: 3, max: 5, message: "长度在 3 到 5 个字符", trigger: "blur"}
+        ], region:
+            [
+              {required: true, message: "请选择活动区域", trigger: "change"}
+            ], date1:
+            [
+              {
+                type: "date",
+                required: true,
+                message: "请选择日期",
+                trigger: "change"
+              }
+            ],
+        date2:
+            [
+              {
+                type: "date",
+                required: true,
+                message: "请选择时间",
+                trigger: "change"
+              }
+            ], type:
+            [
+              {
+                type: "array",
+                required: true,
+                message: "请至少选择一个活动性质",
+                trigger: "change"
+              }
+            ],
+        resource:
+            [
+              {required: true, message: "请选择活动资源", trigger: "change"}
+            ], desc:
+            [{required: true, message: "请填写活动形式", trigger: "blur"}]
+      }
+      ,
 
-    message: "first",
-        showHeader:
-    false,
-        unread:
-    [
-      {
-        date: "2018-04-19 20:00:00",
-        title: "【系统通知】该系统将于今晚凌晨2点到5点进行升级维护"
-      },
-      {
-        date: "2018-04-19 21:00:00",
-        title: "今晚12点整发大红包，先到先得"
-      }
-    ],
-        read:
-    [
-      {
-        date: "2018-04-19 20:00:00",
-        title: "【系统通知】该系统将于今晚凌晨2点到5点进行升级维护"
-      }
-    ],
-        recycle:
-    [
-      {
-        date: "2018-04-19 20:00:00",
-        title: "【系统通知】该系统将于今晚凌晨2点到5点进行升级维护"
-      }
-    ]
-  }
-    ;
+      message: "first",
+      showHeader:
+          false,
+      unread:
+          [
+            {
+              date: "2018-04-19 20:00:00",
+              title: "【系统通知】该系统将于今晚凌晨2点到5点进行升级维护"
+            },
+            {
+              date: "2018-04-19 21:00:00",
+              title: "今晚12点整发大红包，先到先得"
+            }
+          ],
+      read:
+          [
+            {
+              date: "2018-04-19 20:00:00",
+              title: "【系统通知】该系统将于今晚凌晨2点到5点进行升级维护"
+            }
+          ],
+      recycle:
+          [
+            {
+              date: "2018-04-19 20:00:00",
+              title: "【系统通知】该系统将于今晚凌晨2点到5点进行升级维护"
+            }
+          ]
+    }
+        ;
   },
   methods: {
     submitForm(formName) {
@@ -587,6 +716,10 @@ h2 {
 
 .searchMargin {
   margin-right: 20px;
+}
+.botCard{
+  display: flex;
+  justify-content: space-between;
 }
 </style>
 

@@ -1,6 +1,7 @@
 <template>
-  <div class>
+  <div>
     <div class="crumbs">
+      <!-- 面包屑-->
       <el-breadcrumb separator="/">
         <el-breadcrumb-item>
           <i class="el-icon-lx-calendar"></i> 工单中心
@@ -11,96 +12,47 @@
     <div class="container">
       <h2>客户信息</h2>
       <el-form
-          :model="ruleForm"
-          :rules="rules"
+          :model="keHuForm"
+          :rules="keHuRules"
           ref="ruleForm"
           label-width="120px"
           class="demo-ruleForm"
           :inline="true"
       >
-        <el-form-item label="手机号" prop="name">
-          <el-input v-model="ruleForm.name" placeholder="sadas"></el-input>
+        <el-form-item label="手机号" prop="phone">
+          <el-input v-model="keHuForm.phone" placeholder="手机号"></el-input>
         </el-form-item>
         <el-form-item label="姓名" prop="name">
-          <el-input v-model="ruleForm.name"></el-input>
+          <el-input v-model="keHuForm.name" placeholder="姓名"></el-input>
         </el-form-item>
-        <el-form-item label="生日" required>
-          <el-form-item prop="date1">
+        <el-form-item label="生日">
+          <el-form-item prop="birth">
             <el-date-picker
                 type="date"
                 placeholder="选择日期"
-                v-model="ruleForm.date1"
+                v-model="keHuForm.birth"
                 style="width: 100%;"
             ></el-date-picker>
           </el-form-item>
         </el-form-item>
-        <el-form-item label="客户备注" prop="name">
-          <el-input v-model="ruleForm.name"></el-input>
+        <el-form-item label="客户备注" prop="beiZhu">
+          <el-input v-model="keHuForm.beiZhu" placeholder="备注信息"></el-input>
         </el-form-item>
-
-        <!-- <el-form-item label="活动区域" prop="region">
-          <el-select v-model="ruleForm.region" placeholder="请选择活动区域">
-            <el-option label="区域一" value="shanghai"></el-option>
-            <el-option label="区域二" value="beijing"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="活动时间" required>
-          <el-col :span="11">
-            <el-form-item prop="date1">
-              <el-date-picker
-                type="date"
-                placeholder="选择日期"
-                v-model="ruleForm.date1"
-                style="width: 100%;"
-              ></el-date-picker>
-            </el-form-item>
-          </el-col>
-          <el-col class="line" :span="2">-</el-col>
-          <el-col :span="11">
-            <el-form-item prop="date2">
-              <el-time-picker placeholder="选择时间" v-model="ruleForm.date2" style="width: 100%;"></el-time-picker>
-            </el-form-item>
-          </el-col>
-        </el-form-item>
-        <el-form-item label="即时配送" prop="delivery">
-          <el-switch v-model="ruleForm.delivery"></el-switch>
-        </el-form-item>
-        <el-form-item label="活动性质" prop="type">
-          <el-checkbox-group v-model="ruleForm.type">
-            <el-checkbox label="美食/餐厅线上活动" name="type"></el-checkbox>
-            <el-checkbox label="地推活动" name="type"></el-checkbox>
-            <el-checkbox label="线下主题活动" name="type"></el-checkbox>
-            <el-checkbox label="单纯品牌曝光" name="type"></el-checkbox>
-          </el-checkbox-group>
-        </el-form-item>
-        <el-form-item label="特殊资源" prop="resource">
-          <el-radio-group v-model="ruleForm.resource">
-            <el-radio label="线上品牌商赞助"></el-radio>
-            <el-radio label="线下场地免费"></el-radio>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item label="活动形式" prop="desc">
-          <el-input type="textarea" v-model="ruleForm.desc"></el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
-          <el-button @click="resetForm('ruleForm')">重置</el-button>
-        </el-form-item>-->
       </el-form>
 
       <h2>车辆信息</h2>
       <el-form
-          :model="ruleForm"
-          :rules="rules"
+          :model="carForm"
+          :rules="carRules"
           ref="ruleForm"
           label-width="120px"
           class="demo-ruleForm"
           :inline="true"
       >
-        <el-form-item label="车牌号" prop="name">
+        <el-form-item label="车牌号" required prop="number">
           <el-input
               placeholder="车牌后五位"
-              v-model="input3"
+              v-model="carForm.number"
               style="width:200px"
               class="input-with-select"
           >
@@ -111,145 +63,141 @@
                 <el-option label="陕D" value="3"></el-option>
               </el-select>
             </template>
-            <!-- <template v-slot:append>
-              <el-button icon="el-icon-search"></el-button>
-            </template>-->
           </el-input>
         </el-form-item>
-        <el-form-item label="VIN码" prop="name">
-          <el-input placeholder="输入完毕点击放大镜查询" v-model="input3" class="input-with-select">
+        <el-form-item label="VIN码" prop="vin">
+          <el-input placeholder="输入完毕点击放大镜查询" v-model="carForm.vin" class="input-with-select">
             <template v-slot:append>
               <el-button icon="el-icon-search"></el-button>
             </template>
           </el-input>
         </el-form-item>
         <br/>
-        <el-form-item label="目前里程" prop="name">
-          <el-input v-model="ruleForm.name" placeholder="sadas"></el-input>
+        <el-form-item label="目前里程">
+          <el-input v-model="carForm.liCheng" type="number"></el-input>
         </el-form-item>
-        <el-form-item label="下次保养里程" prop="name">
-          <el-input v-model="ruleForm.name" placeholder="sadas"></el-input>
+        <el-form-item label="下次保养里程">
+          <el-input v-model="carForm.nextLiCheng" p></el-input>
         </el-form-item>
-        <el-form-item label="下次保养日期" required>
-          <el-form-item prop="date1">
+        <el-form-item label="下次保养日期">
+          <el-form-item>
             <el-date-picker
                 type="date"
                 placeholder="选择日期"
-                v-model="ruleForm.date1"
+                v-model="carForm.nextBaoYang"
                 style="width: 100%;"
             ></el-date-picker>
           </el-form-item>
         </el-form-item>
         <br/>
 
-        <el-form-item label="品牌" prop="name">
-          <el-input v-model="ruleForm.name" placeholder="sadas"></el-input>
+        <el-form-item label="品牌">
+          <el-input v-model="carForm.pinPai"></el-input>
         </el-form-item>
-        <el-form-item label="生产商" prop="name">
-          <el-input v-model="ruleForm.name" placeholder="sadas"></el-input>
+        <el-form-item label="生产商">
+          <el-input v-model="carForm.shengChanShang"></el-input>
         </el-form-item>
-        <el-form-item label="车代" prop="name">
-          <el-input v-model="ruleForm.name" placeholder="sadas"></el-input>
+        <el-form-item label="车代">
+          <el-input v-model="carForm.cheDai"></el-input>
         </el-form-item>
-        <el-form-item label="车型" prop="name">
-          <el-input v-model="ruleForm.name" placeholder="sadas"></el-input>
+        <el-form-item label="车型">
+          <el-input v-model="carForm.cheXing"></el-input>
         </el-form-item>
-        <el-form-item label="制造日期" prop="name">
-          <el-input v-model="ruleForm.name" placeholder="sadas"></el-input>
+        <el-form-item label="制造日期">
+          <el-input v-model="carForm.zhiZaoDate"></el-input>
         </el-form-item>
-        <el-form-item label="变速器" prop="name">
-          <el-input v-model="ruleForm.name" placeholder="sadas"></el-input>
+        <el-form-item label="变速器">
+          <el-input v-model="carForm.bianSuQi"></el-input>
         </el-form-item>
-        <el-form-item label="发动机" prop="name">
-          <el-input v-model="ruleForm.name" placeholder="sadas"></el-input>
+        <el-form-item label="发动机">
+          <el-input v-model="carForm.faDongJi"></el-input>
         </el-form-item>
-        <el-form-item label="功率" prop="name">
-          <el-input v-model="ruleForm.name" placeholder="sadas"></el-input>
+        <el-form-item label="功率">
+          <el-input v-model="carForm.gongLv"></el-input>
         </el-form-item>
-        <el-form-item label="排量" prop="name">
-          <el-input v-model="ruleForm.name" placeholder="sadas"></el-input>
+        <el-form-item label="排量">
+          <el-input v-model="carForm.paiLiang"></el-input>
         </el-form-item>
-        <el-form-item label="燃料" prop="name">
-          <el-input v-model="ruleForm.name" placeholder="sadas"></el-input>
+        <el-form-item label="燃料">
+          <el-input v-model="carForm.ranLiao"></el-input>
         </el-form-item>
-        <el-form-item label="车身" prop="name">
-          <el-input v-model="ruleForm.name" placeholder="sadas"></el-input>
+        <el-form-item label="车身">
+          <el-input v-model="carForm.cheShen"></el-input>
         </el-form-item>
-        <el-form-item label="后制动" prop="name">
-          <el-input v-model="ruleForm.name" placeholder="sadas"></el-input>
+        <el-form-item label="后制动">
+          <el-input v-model="carForm.houZhiDong"></el-input>
         </el-form-item>
-        <el-form-item label="驻车" prop="name">
-          <el-input v-model="ruleForm.name" placeholder="sadas"></el-input>
+        <el-form-item label="驻车">
+          <el-input v-model="carForm.zhuChe"></el-input>
         </el-form-item>
-        <el-form-item label="驱动" prop="name">
-          <el-input v-model="ruleForm.name" placeholder="sadas"></el-input>
+        <el-form-item label="驱动">
+          <el-input v-model="carForm.quDong"></el-input>
         </el-form-item>
         <br/>
-        <el-form-item label="车辆备注" prop="name">
-          <el-input v-model="ruleForm.name" placeholder="sadas"></el-input>
+        <el-form-item label="车辆备注">
+          <el-input v-model="carForm.beiZhu" placeholder="备注"></el-input>
         </el-form-item>
       </el-form>
 
       <h2>保险信息</h2>
       <el-form
-          :model="ruleForm"
-          :rules="rules"
+          :model="baoXianForm"
           ref="ruleForm"
           label-width="120px"
           class="demo-ruleForm"
           :inline="true"
       >
-        <el-form-item label="保险公司" prop="name">
-          <el-select v-model="select" placeholder="保险公司" style="width:200px">
+        <el-form-item label="保险公司">
+          <el-select v-model="baoXianForm.company" style="width:200px">
             <el-option label="平安" value="1"></el-option>
             <el-option label="惠普" value="2"></el-option>
             <el-option label="人寿" value="3"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="年审日期" prop="name">
-          <el-form-item prop="date1">
+        <el-form-item label="年审日期">
+          <el-form-item>
             <el-date-picker
                 type="date"
-                placeholder="啊啊啊"
-                v-model="ruleForm.date1"
+                placeholder="选择日期"
+                v-model="baoXianForm.nianShenDate"
                 style="width: 100%;"
             ></el-date-picker>
           </el-form-item>
         </el-form-item>
-        <el-form-item label="下次保险日期" required>
-          <el-form-item prop="date1">
+        <el-form-item label="下次保险日期">
+          <el-form-item>
             <el-date-picker
                 type="date"
                 placeholder="选择日期"
-                v-model="ruleForm.date1"
+                v-model="baoXianForm.nextDate"
                 style="width: 100%;"
             ></el-date-picker>
           </el-form-item>
         </el-form-item>
         <br/>
 
-        <el-form-item label="强险单号" prop="name">
-          <el-input v-model="ruleForm.name" placeholder="sadas"></el-input>
+        <el-form-item label="强险单号">
+          <el-input v-model="baoXianForm.qianXiangNumber"></el-input>
         </el-form-item>
-        <el-form-item label="强险到期" prop="name">
-          <el-form-item prop="date1">
+        <el-form-item label="强险到期">
+          <el-form-item>
             <el-date-picker
                 type="date"
-                placeholder="啊啊啊"
-                v-model="ruleForm.date1"
+                placeholder="选择日期"
+                v-model="baoXianForm.qianXianEnd"
                 style="width: 100%;"
             ></el-date-picker>
           </el-form-item>
         </el-form-item>
-        <el-form-item label="商业险单号" required>
-          <el-input v-model="ruleForm.name"></el-input>
+        <el-form-item label="商业险单号">
+          <el-input v-model="baoXianForm.shangYeXianNumber"></el-input>
         </el-form-item>
-        <el-form-item label="商业险到期" prop="name">
-          <el-form-item prop="date1">
+        <el-form-item label="商业险到期">
+          <el-form-item>
             <el-date-picker
                 type="date"
-                placeholder="啊啊啊"
-                v-model="ruleForm.date1"
+                placeholder="选择日期"
+                v-model="baoXianForm.shangYeXianEnd"
                 style="width: 100%;"
             ></el-date-picker>
           </el-form-item>
@@ -258,83 +206,87 @@
 
       <h2>服务项目</h2>
       <div class="fuWuMenu">
-        <el-button size="small" type="primary" @click="dialogVisible = true">选择服务项目</el-button>
-        <el-button size="small" type="primary" @click="dialogVisibleB = true">新增服务项目</el-button>
+        <el-button size="small" type="primary" @click="fuWuDialogShow = true">选择服务项目</el-button>
+        <el-button size="small" type="primary" @click="fuWuDialogShowB = true">新增服务项目</el-button>
       </div>
-      <el-table :data="tableData" border show-summary style="width: 100%;marginTop:15px;margin-bottom:25px">
+      <el-table :data="fuWuData" border :summary-method="xiangMuHeJiRules" show-summary style="width: 100%;marginTop:15px;margin-bottom:25px">
         <el-table-column type="index" width="50"></el-table-column>
         <el-table-column prop="name" label="项目名称"></el-table-column>
-        <el-table-column prop="amount1" width="100" label="金额/元"></el-table-column>
-        <el-table-column prop="amount2" width="100" label="优惠/元"></el-table-column>
-        <el-table-column prop="amount2" width="100" label="应收/元"></el-table-column>
-        <el-table-column prop="amount3" width="150" label="施工人员"></el-table-column>
-        <el-table-column label="操作" width="100">
-          <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
-        </el-table-column>
-      </el-table>
+        <el-table-column prop="jinE" width="100" label="金额/元"></el-table-column>
+        <el-table-column prop="youHui" width="100" label="优惠/元"></el-table-column>
+        <el-table-column prop="yingShou" width="100" label="应收/元"></el-table-column>
 
-      <!-- 项目选择弹出窗口 -->
-      <el-dialog title="提示" v-model="dialogVisible" width="80%">
-        <div class="search">
-          <el-input class="searchMargin" placeholder="项目名称"></el-input>
-          <el-button type="primary" size="mini">查询</el-button>
-        </div>
-
-        <el-table :data="tableData" border show-summary style="width: 100%;marginTop:25px">
-          <el-table-column type="selection" width="55"></el-table-column>
-          <el-table-column prop="name" label="项目名称"></el-table-column>
-          <el-table-column prop="amount1" width="100" label="金额/元"></el-table-column>
-          <el-table-column prop="amount2" width="100" label="优惠/元"></el-table-column>
-          <el-table-column prop="amount2" width="100" label="应收/元"></el-table-column>
-          <el-table-column width="150" label="施工人员">
-            <el-select v-model="optinonValue" placeholder="请选择">
+        <el-table-column prop="people" width="150" label="施工人员">
+          <template v-slot="scope">
+            <el-select v-model="scope.row[scope.column.property]" @change="changePeople" placeholder="请选择">
               <el-option
-                  v-for="item in options"
+                  v-for="item in peoples"
                   :key="item.value"
                   :label="item.label"
                   :value="item.value">
               </el-option>
             </el-select>
-          </el-table-column>
+          </template>
+        </el-table-column>
+
+        <el-table-column label="操作" width="100">
+          <template v-slot="scope">
+          <el-button size="mini" type="danger" @click="fuwuDtaDelete(scope.$index)">删除</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+
+      <!-- 项目选择弹出窗口 -->
+      <el-dialog title="项目选择" v-model="fuWuDialogShow" width="80%">
+        <div class="search">
+          <el-input class="searchMargin" placeholder="项目名称"></el-input>
+          <el-button type="primary" size="mini">查询</el-button>
+        </div>
+
+        <el-table :data="fuWuDatas" border @selection-change="fuWuDialogSelection" style="width: 100%;marginTop:25px">
+          <el-table-column type="selection" width="55"></el-table-column>
+          <el-table-column prop="name" label="项目名称"></el-table-column>
+          <el-table-column prop="jinE" width="100" label="金额/元"></el-table-column>
+          <el-table-column prop="youHui" width="100" label="优惠/元"></el-table-column>
+          <el-table-column prop="yingShou" width="100" label="应收/元"></el-table-column>
           <el-table-column label="操作" width="100">
-            <el-button
-                size="mini"
-                type="primary"
-                @click="handleDelete(scope.$index, scope.row)"
-                plain
-            >选择
-            </el-button>
+            <template v-slot="scope">
+              <el-button
+                  size="mini"
+                  type="primary"
+                  @click="selectFuWu( scope.row,scope.$index)"
+                  plain
+              >选择
+              </el-button>
+            </template>
           </el-table-column>
         </el-table>
 
         <template v-slot:footer>
           <span class="dialog-footer">
-            <el-button @click="dialogVisible = false">取 消</el-button>
-            <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+            <el-button @click="fuWuDialogShow = false">取 消</el-button>
+            <el-button type="primary" @click="fuWuDialogOk">确 定</el-button>
           </span>
         </template>
       </el-dialog>
 
       <!-- 新增项目弹出窗口 -->
-      <el-dialog title="提示" v-model="dialogVisibleB" width="50%">
-        <div class="search">
-          <el-button type="primary" size="mini">新增一行</el-button>
-        </div>
-        <el-table :data="tableData2" border show-summary style="width: 100%;marginTop:25px">
-          <el-table-column label="项目名称">
-            <el-input></el-input>
-          </el-table-column>
-          <el-table-column width="100" label="金额/元">
-            <el-input></el-input>
-          </el-table-column>
-          <el-table-column width="100" label="优惠/元">
-            <el-input></el-input>
-          </el-table-column>
-        </el-table>
+      <el-dialog title="新增项目" v-model="fuWuDialogShowB" width="50%">
+        <el-form ref="form" :model="newFuWuData" label-width="80px">
+          <el-form-item label="项目名称">
+            <el-input v-model="newFuWuData.name"></el-input>
+          </el-form-item>
+          <el-form-item label="金额/元">
+            <el-input v-model="newFuWuData.jinE" type="number"></el-input>
+          </el-form-item>
+          <el-form-item label="优惠/元">
+            <el-input v-model="newFuWuData.youHui" type="number"></el-input>
+          </el-form-item>
+        </el-form>
         <template v-slot:footer>
           <span class="dialog-footer">
-            <el-button @click="dialogVisibleB = false">取 消</el-button>
-            <el-button type="primary" @click="dialogVisibleB = false">确 定</el-button>
+            <el-button @click="fuWuDialogShowB = false">取 消</el-button>
+            <el-button type="primary" @click="newFuWu">确 定</el-button>
           </span>
         </template>
       </el-dialog>
@@ -359,36 +311,36 @@
 
       <!-- 使用商品弹出窗口 -->
       <el-dialog title="使用商品" v-model="shangpinS" width="80%">
-          <el-form  ref="form" :model="form" inline="true">
-            <el-form-item>
-              <el-input class="searchMargin" width="55" placeholder="商品名称"></el-input>
-            </el-form-item>
-            <el-form-item>
-              <el-input class="searchMargin" width="55" placeholder="品牌"></el-input>
-            </el-form-item>
-            <el-form-item>
-              <el-input class="searchMargin"  width="55" placeholder="规格型号"></el-input>
-            </el-form-item>
-            <el-form-item>
-              <el-input class="searchMargin" width="55" placeholder="出厂编码"></el-input>
-            </el-form-item>
-            <el-form-item>
-              <el-input class="searchMargin" width="55" placeholder="OE号"></el-input>
-            </el-form-item>
-            <el-form-item>
-              <el-input class="searchMargin" width="55" placeholder="适用车型"></el-input>
-            </el-form-item>
-            <el-form-item label="是否有库存">
-              <el-switch
-                  v-model="switchIs"
-                  active-color="#13ce66"
-                  inactive-color="#ff4949">
-              </el-switch>
-            </el-form-item>
-            <el-form-item>
-              <el-button type="primary" size="mini" style="margin-left: 20px">查询</el-button>
-            </el-form-item>
-          </el-form>
+        <el-form ref="form" :model="form" inline="true">
+          <el-form-item>
+            <el-input class="searchMargin" width="55" placeholder="商品名称"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-input class="searchMargin" width="55" placeholder="品牌"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-input class="searchMargin" width="55" placeholder="规格型号"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-input class="searchMargin" width="55" placeholder="出厂编码"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-input class="searchMargin" width="55" placeholder="OE号"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-input class="searchMargin" width="55" placeholder="适用车型"></el-input>
+          </el-form-item>
+          <el-form-item label="是否有库存">
+            <el-switch
+                v-model="switchIs"
+                active-color="#13ce66"
+                inactive-color="#ff4949">
+            </el-switch>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" size="mini" style="margin-left: 20px">查询</el-button>
+          </el-form-item>
+        </el-form>
 
         <el-table :data="tableData" border show-summary style="width: 100%;marginTop:25px">
           <el-table-column type="selection" width="55"></el-table-column>
@@ -428,8 +380,8 @@
       <el-table :data="tableData" border show-summary style="width: 100%;marginTop:15px;margin-bottom:25px">
         <el-table-column type="index" width="50"></el-table-column>
         <el-table-column prop="name" label="附加费名称"></el-table-column>
-        <el-table-column prop="amount1"  label="金额"></el-table-column>
-        <el-table-column prop="amount1"  label="备注"></el-table-column>
+        <el-table-column prop="amount1" label="金额"></el-table-column>
+        <el-table-column prop="amount1" label="备注"></el-table-column>
         <el-table-column label="操作" width="100">
           <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
         </el-table-column>
@@ -437,7 +389,7 @@
 
       <!-- 新增附加费弹出窗口 -->
       <el-dialog title="新增附加费" v-model="fuJia" width="80%">
-        <el-form  ref="form" :model="form" >
+        <el-form ref="form" :model="form">
           <el-form-item label="附加费名称">
             <el-input class="searchMargin" width="55" placeholder="附加费名称"></el-input>
           </el-form-item>
@@ -445,7 +397,7 @@
             <el-input class="searchMargin" width="55" placeholder="金额/元"></el-input>
           </el-form-item>
           <el-form-item label="备注">
-            <el-input class="searchMargin"  width="55" placeholder="备注"></el-input>
+            <el-input class="searchMargin" width="55" placeholder="备注"></el-input>
           </el-form-item>
         </el-form>
         <template v-slot:footer>
@@ -458,8 +410,8 @@
 
       <el-card>
         <div class="botCard">
-           <div >总计：<span style="color:red;font-weight: bold;font-size: 20px">￥120.1</span> 元</div>
-          <div >
+          <div>总计：<span style="color:red;font-weight: bold;font-size: 20px">￥120.1</span> 元</div>
+          <div>
             <el-button type="primary" plain>提交</el-button>
             <el-button type="warning" plain>保存</el-button>
           </div>
@@ -474,10 +426,10 @@ export default {
   name: "tabs",
   data() {
     return {
-      switchIs:true,
+      switchIs: true,
       shangpinS: false,
       shangpinSB: false,
-      fuJia:false,
+      fuJia: false,
       optinonValue: '',
       options: [{
         value: '选项1',
@@ -538,68 +490,117 @@ export default {
               amount3: 15
             }
           ],
-      ruleForm: {
-        name: "", region: "", date1: "",
-        date2:
-            "",
-        delivery:
-            false,
-        type:
-            [],
-        resource:
-            "",
-        desc:
-            "",
-        input1:
-            "",
-        input2:
-            "",
-        input3:
-            "",
-        select:
-            ""
-      }
-      ,
-      rules: {
+
+
+      // 客户表单
+      keHuForm: {
+        phone: '',
+        name: "",
+        birth: "",
+        beiZhu: ''
+      },
+      // 客户验证规则
+      keHuRules: {
+        phone: [
+          {required: true, message: "请输入手机号", trigger: "blur"},
+          {min: 11, max: 11, message: "请输入11位手机号", trigger: "blur"},
+          {type: 'number', message: '手机号必须为数字值', trigger: "blur"},
+        ],
         name: [
-          {required: true, message: "请输入活动名称", trigger: "blur"},
-          {min: 3, max: 5, message: "长度在 3 到 5 个字符", trigger: "blur"}
-        ], region:
-            [
-              {required: true, message: "请选择活动区域", trigger: "change"}
-            ], date1:
-            [
-              {
-                type: "date",
-                required: true,
-                message: "请选择日期",
-                trigger: "change"
-              }
-            ],
-        date2:
-            [
-              {
-                type: "date",
-                required: true,
-                message: "请选择时间",
-                trigger: "change"
-              }
-            ], type:
-            [
-              {
-                type: "array",
-                required: true,
-                message: "请至少选择一个活动性质",
-                trigger: "change"
-              }
-            ],
-        resource:
-            [
-              {required: true, message: "请选择活动资源", trigger: "change"}
-            ], desc:
-            [{required: true, message: "请填写活动形式", trigger: "blur"}]
-      }
-      ,
+          {required: true, message: "请输入姓名", trigger: "blur"},
+          {min: 1, max: 4, message: "请输入正确姓名", trigger: "blur"}
+        ]
+      },
+      // 车辆表单
+      carForm: {
+        number: '',
+        vin: '',
+        liCheng: '',
+        nextLiCheng: '',
+        nextBaoYang: '',
+        pinPai: '',
+        shengChanShang: '',
+        cheDai: '',
+        cheXing: '',
+        zhiZaoDate: '',
+        bianSuQi: '',
+        faDongJi: '',
+        gongLv: '',
+        paiLiang: '',
+        ranLiao: '',
+        cheShen: '',
+        houZhiDong: '',
+        zhuChe: '',
+        quDong: "",
+        beiZhu: ''
+      },
+      // 车辆验证规则
+      carRules: {
+        number: [
+          {required: true, message: "请输入车牌号", trigger: "blur"},
+          {min: 5, max: 5, message: "请输入5位车牌号", trigger: "blur"}
+        ],
+        vin: [
+          {min: 17, max: 17, message: "请输入17位vin码", trigger: "blur"}
+        ],
+      },
+      // 保险表单
+      baoXianForm: {
+        company: '',
+        nianShenDate: '',
+        nextDate: '',
+        qianXiangNumber: '',
+        qianXianEnd: '',
+        shangYeXianNumber: '',
+        shangYeXianEnd: '',
+      },
+      // 是否打开服务项目中的弹出框
+      fuWuDialogShow: false,
+      fuWuDialogShowB: false,
+      // 服务项目表格数据
+      fuWuData: [],
+      // 工人姓名
+      peoples: [
+        {
+          value: '小王',
+          label: '小王'
+        }, {
+          value: '小李',
+          label: '小李'
+        }, {
+          value: '小马',
+          label: '小马'
+        }
+      ],
+      // 企业已经设置好的服务项目
+      fuWuDatas: [
+        {
+          name: '更换雨刷器a',
+          jinE: 100,
+          youHui: 10,
+          yingShou: 90,
+        },
+        {
+          name: '更换雨刷器ab',
+          jinE: 100,
+          youHui: 10,
+          yingShou: 90,
+        }
+      ],
+      // 选择服务中多选框改变的值
+      fuWuSelectionData: [],
+      // 新增服务的值
+      newFuWuData:{name:'',jinE:'',youHui:''},
+
+
+
+
+
+
+
+
+
+
 
       message: "first",
       showHeader:
@@ -633,6 +634,149 @@ export default {
         ;
   },
   methods: {
+    // 更改了选择服务中的施工人员
+    changePeople() {
+      console.log(this.fuWuData)
+    },
+    // 选择服务项目
+    selectFuWu(e) {
+      // e为选择的值
+      // 将选择的值push加上people后push进服务项目表格
+      let value = e
+      value.people = ''
+      this.fuWuData.push(value)
+      // 关闭弹出框
+      this.fuWuDialogShow = false
+    },
+    // 选择服务弹出框的多选
+    fuWuDialogSelection(val) {
+      // val为每次选择框状态改变后的所有被选中值
+      this.fuWuSelectionData = val
+    },
+    // 选择服务弹出框的确定方法
+    fuWuDialogOk() {
+      // 判断是否没有选中任何项目
+      if (this.fuWuSelectionData.length === 0) {
+        this.$confirm('你好像并没有选择任何项目，是否需要继续选择?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          // 点击确定，什么都不做
+        }).catch(() => {
+          // 取消 关闭弹出框
+          this.fuWuDialogShow = false
+        });
+      }else{
+        // 多选框中选定了内容 将选中的值添加people后连接  关闭弹出框
+        let value = this.fuWuSelectionData
+        value.forEach((item,index)=>{
+          value[index].people = ''
+        })
+        this.fuWuData = this.fuWuData.concat(value)
+        this.fuWuDialogShow =false
+      }
+    },
+    // 新增服务确定
+    newFuWu(){
+      console.log(this.newFuWuData)
+      // 如果名称和金额不为空
+      let value  = this.newFuWuData
+      if(value.name !='' && value.jinE != ''){
+        // 计算出总金额之后push进表格数据
+        let total = ''
+        if(value.youHui != ''){
+          total = value.jinE - value.youHui
+        }else{
+           total = value.jinE
+        }
+        value.yingShou = total
+        value.people = ''
+        this.fuWuData.push(value)
+        // 询问是否需要将该新增项目加入到设置好的项目中
+        this.$confirm('是否需要将该项目加入到常用项目列表中','添加成功', {
+          confirmButtonText: '添加',
+          cancelButtonText: '取消',
+            type: 'warning'
+        }).then(()=>{
+          // 需要添加
+          this.fuWuDatas.push(value)
+          this.$message({
+            type:'success',
+            message:'添加成功'
+          })
+          this.fuWuDialogShowB =false
+          this.newFuWuData = {name:'',jinE:'',youHui:''}
+
+        }).catch(()=>{
+          // 不要添加
+          this.fuWuDialogShowB =false
+          this.newFuWuData = {name:'',jinE:'',youHui:''}
+        })
+      }else{
+        this.$message({
+          message: '新增项目的名称和金额不能为空',
+          type: 'warning'
+        });
+      }
+    },
+    // 选择项目中合计规则
+    xiangMuHeJiRules(param){
+      console.log(param)
+      // columns为表头数据 包含序号 名称等
+      // data为每行数据
+      const { columns, data } = param;
+      const sums = [];
+      columns.forEach((column, index) => {
+        // 第一行为总计
+        if (index === 0) {
+          sums[index] = '总计';
+          return;
+        }
+        if(index === 1){
+          sums[index] = ''
+          return
+        }
+        if(index === 5){
+          sums[index] = ''
+          return
+        }
+        // map 数组方法 返回一个新数组 新数组为函数处理后的值
+        // Number方法把对象的值转化为数字
+        // every 数组方法 检测数组元素中的值是否都符合条件
+        // reduce 数组方法 累加器 params1：初始值，也是最终返回值 params2：当前元素
+        const values = data.map(item => Number(item[column.property]));
+        // 判断当前是否为数字
+        if (!values.every(value => isNaN(value))) {
+          sums[index] = values.reduce((prev, curr) => {
+            const value = Number(curr);
+            if (!isNaN(value)) {
+              return prev + curr;
+            } else {
+              return prev;
+            }
+          }, 0);
+          sums[index] += ' 元';
+        } else {
+          sums[index] = '-';
+        }
+      });
+      //  返回最终结果
+      return sums;
+    },
+    // 删除服务项目
+    fuwuDtaDelete(e){
+      this.fuWuData.splice(e,1)
+      this.$message({
+        type:'success',
+        message:'删除成功'
+      })
+    },
+
+
+
+
+
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
@@ -717,7 +861,8 @@ h2 {
 .searchMargin {
   margin-right: 20px;
 }
-.botCard{
+
+.botCard {
   display: flex;
   justify-content: space-between;
 }

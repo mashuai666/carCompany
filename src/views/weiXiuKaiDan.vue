@@ -209,7 +209,8 @@
         <el-button size="small" type="primary" @click="fuWuDialogShow = true">选择服务项目</el-button>
         <el-button size="small" type="primary" @click="fuWuDialogShowB = true">新增服务项目</el-button>
       </div>
-      <el-table :data="fuWuData" border :summary-method="xiangMuHeJiRules" show-summary style="width: 100%;marginTop:15px;margin-bottom:25px">
+      <el-table :data="fuWuData" border :summary-method="xiangMuHeJiRules" show-summary
+                style="width: 100%;marginTop:15px;margin-bottom:25px">
         <el-table-column type="index" width="50"></el-table-column>
         <el-table-column prop="name" label="项目名称"></el-table-column>
         <el-table-column prop="jinE" width="100" label="金额/元"></el-table-column>
@@ -231,7 +232,7 @@
 
         <el-table-column label="操作" width="100">
           <template v-slot="scope">
-          <el-button size="mini" type="danger" @click="fuwuDtaDelete(scope.$index)">删除</el-button>
+            <el-button size="mini" type="danger" @click="fuwuDtaDelete(scope.$index)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -296,14 +297,19 @@
       <div class="shangpinMenu">
         <el-button size="small" type="primary" @click="shangpinS = true">选择使用商品</el-button>
       </div>
-      <el-table :data="tableData" border show-summary style="width: 100%;marginTop:15px;margin-bottom:25px">
+      <el-table :data="shangPinData" border show-summary :summary-method="shangPinHeJiRules" style="width: 100%;marginTop:15px;margin-bottom:25px">
         <el-table-column type="index" width="50"></el-table-column>
         <el-table-column prop="name" label="商品名称"></el-table-column>
-        <el-table-column prop="name" label="品牌"></el-table-column>
-        <el-table-column prop="amount1" width="100" label="销售单价/元"></el-table-column>
-        <el-table-column prop="amount1" width="100" label="数量"></el-table-column>
-        <el-table-column prop="amount2" width="100" label="总价"></el-table-column>
-        <el-table-column prop="name" label="适用车型"></el-table-column>
+        <el-table-column prop="pinPai" label="品牌"></el-table-column>
+        <el-table-column prop="danJia" width="100" label="销售单价/元"></el-table-column>
+        <el-table-column prop="shuLiang"  width="100" label="数量">
+          <template v-slot="scope">
+            <el-input type="number" min="1" v-model="scope.row.shuLiang" @change="changeShangPinCount(scope.row,scope.$index)"  placeholder="请选择">
+            </el-input>
+          </template>
+        </el-table-column>
+        <el-table-column prop="zongJia" width="100" label="总价"></el-table-column>
+        <el-table-column prop="cheXing" label="适用车型"></el-table-column>
         <el-table-column label="操作" width="100">
           <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
         </el-table-column>
@@ -342,32 +348,35 @@
           </el-form-item>
         </el-form>
 
-        <el-table :data="tableData" border show-summary style="width: 100%;marginTop:25px">
+        <el-table :data="shangPinDatas" border @selection-change="shangPinDialogSelection"
+                  style="width: 100%;marginTop:25px">
           <el-table-column type="selection" width="55"></el-table-column>
           <el-table-column prop="name" label="商品名称"></el-table-column>
-          <el-table-column prop="name" label="品牌"></el-table-column>
-          <el-table-column prop="name" label="规格型号"></el-table-column>
-          <el-table-column prop="name" label="出场编码"></el-table-column>
-          <el-table-column prop="name" label="OE号"></el-table-column>
-          <el-table-column prop="amount1" width="100" label="销售价/元"></el-table-column>
-          <el-table-column prop="amount2" width="100" label="库存"></el-table-column>
-          <el-table-column prop="amount2" width="100" label="单位"></el-table-column>
-          <el-table-column prop="name" label="适用车型"></el-table-column>
+          <el-table-column prop="pinPai" label="品牌"></el-table-column>
+          <el-table-column prop="guiGeXingHao" label="规格型号"></el-table-column>
+          <el-table-column prop="chuChangBianMa" label="出场编码"></el-table-column>
+          <el-table-column prop="Oe" label="OE号"></el-table-column>
+          <el-table-column prop="xiaoShouJia" width="100" label="销售价/元"></el-table-column>
+          <el-table-column prop="kuCun" width="100" label="库存"></el-table-column>
+          <el-table-column prop="danWei" width="100" label="单位"></el-table-column>
+          <el-table-column prop="cheXing" label="适用车型"></el-table-column>
           <el-table-column label="操作" width="100">
-            <el-button
-                size="mini"
-                type="primary"
-                @click="handleDelete(scope.$index, scope.row)"
-                plain
-            >选择
-            </el-button>
+            <template v-slot="scope">
+              <el-button
+                  size="mini"
+                  type="primary"
+                  @click="selectShangPin(scope.row)"
+                  plain
+              >选择
+              </el-button>
+            </template>
           </el-table-column>
         </el-table>
 
         <template v-slot:footer>
           <span class="dialog-footer">
             <el-button @click="shangpinS = false">取 消</el-button>
-            <el-button type="primary" @click="shangpinS = false">确 定</el-button>
+            <el-button type="primary" @click="shangPinDialogOk">确 定</el-button>
           </span>
         </template>
       </el-dialog>
@@ -590,16 +599,54 @@ export default {
       // 选择服务中多选框改变的值
       fuWuSelectionData: [],
       // 新增服务的值
-      newFuWuData:{name:'',jinE:'',youHui:''},
-
-
-
-
-
-
-
-
-
+      newFuWuData: {name: '', jinE: '', youHui: ''},
+      // 商品表格数据
+      shangPinData: [],
+      // 企业已经设置好的服务项目
+      shangPinDatas: [
+        {
+          name: '雨刷',
+          pinPai: '圣豆',
+          guiGeXingHao: 'H886',
+          chuChangBianMa: 'SD116215',
+          Oe: '123456789',
+          xiaoShouJia: '100',
+          kuCun: '10',
+          danWei: '对',
+          cheXing: '马自达'
+        },
+        {
+          name: '雨刷',
+          pinPai: '圣豆',
+          guiGeXingHao: 'H886',
+          chuChangBianMa: 'SD116215',
+          Oe: '123456789',
+          xiaoShouJia: '100',
+          kuCun: '10',
+          danWei: '对',
+          cheXing: '马自达'
+        }, {
+          name: '雨刷',
+          pinPai: '圣豆',
+          guiGeXingHao: 'H886',
+          chuChangBianMa: 'SD116215',
+          Oe: '123456789',
+          xiaoShouJia: '100',
+          kuCun: '10',
+          danWei: '对',
+          cheXing: '马自达'
+        }, {
+          name: '雨刷',
+          pinPai: '圣豆',
+          guiGeXingHao: 'H886',
+          chuChangBianMa: 'SD116215',
+          Oe: '123456789',
+          xiaoShouJia: '100',
+          kuCun: '10',
+          danWei: '对',
+          cheXing: '马自达'
+        },
+      ],
 
 
       message: "first",
@@ -667,53 +714,53 @@ export default {
           // 取消 关闭弹出框
           this.fuWuDialogShow = false
         });
-      }else{
+      } else {
         // 多选框中选定了内容 将选中的值添加people后连接  关闭弹出框
         let value = this.fuWuSelectionData
-        value.forEach((item,index)=>{
+        value.forEach((item, index) => {
           value[index].people = ''
         })
         this.fuWuData = this.fuWuData.concat(value)
-        this.fuWuDialogShow =false
+        this.fuWuDialogShow = false
       }
     },
     // 新增服务确定
-    newFuWu(){
+    newFuWu() {
       console.log(this.newFuWuData)
       // 如果名称和金额不为空
-      let value  = this.newFuWuData
-      if(value.name !='' && value.jinE != ''){
+      let value = this.newFuWuData
+      if (value.name != '' && value.jinE != '') {
         // 计算出总金额之后push进表格数据
         let total = ''
-        if(value.youHui != ''){
+        if (value.youHui != '') {
           total = value.jinE - value.youHui
-        }else{
-           total = value.jinE
+        } else {
+          total = value.jinE
         }
         value.yingShou = total
         value.people = ''
         this.fuWuData.push(value)
         // 询问是否需要将该新增项目加入到设置好的项目中
-        this.$confirm('是否需要将该项目加入到常用项目列表中','添加成功', {
+        this.$confirm('是否需要将该项目加入到常用项目列表中', '添加成功', {
           confirmButtonText: '添加',
           cancelButtonText: '取消',
-            type: 'warning'
-        }).then(()=>{
+          type: 'warning'
+        }).then(() => {
           // 需要添加
           this.fuWuDatas.push(value)
           this.$message({
-            type:'success',
-            message:'添加成功'
+            type: 'success',
+            message: '添加成功'
           })
-          this.fuWuDialogShowB =false
-          this.newFuWuData = {name:'',jinE:'',youHui:''}
+          this.fuWuDialogShowB = false
+          this.newFuWuData = {name: '', jinE: '', youHui: ''}
 
-        }).catch(()=>{
+        }).catch(() => {
           // 不要添加
-          this.fuWuDialogShowB =false
-          this.newFuWuData = {name:'',jinE:'',youHui:''}
+          this.fuWuDialogShowB = false
+          this.newFuWuData = {name: '', jinE: '', youHui: ''}
         })
-      }else{
+      } else {
         this.$message({
           message: '新增项目的名称和金额不能为空',
           type: 'warning'
@@ -721,11 +768,10 @@ export default {
       }
     },
     // 选择项目中合计规则
-    xiangMuHeJiRules(param){
-      console.log(param)
+    xiangMuHeJiRules(param) {
       // columns为表头数据 包含序号 名称等
       // data为每行数据
-      const { columns, data } = param;
+      const {columns, data} = param;
       const sums = [];
       columns.forEach((column, index) => {
         // 第一行为总计
@@ -733,11 +779,11 @@ export default {
           sums[index] = '总计';
           return;
         }
-        if(index === 1){
+        if (index === 1) {
           sums[index] = ''
           return
         }
-        if(index === 5){
+        if (index === 5) {
           sums[index] = ''
           return
         }
@@ -765,15 +811,63 @@ export default {
       return sums;
     },
     // 删除服务项目
-    fuwuDtaDelete(e){
-      this.fuWuData.splice(e,1)
+    fuwuDtaDelete(e) {
+      this.fuWuData.splice(e, 1)
       this.$message({
-        type:'success',
-        message:'删除成功'
+        type: 'success',
+        message: '删除成功'
       })
     },
-
-
+    // 选择商品
+    selectShangPin(e) {
+      let value =  e
+      value.shuLiang = 1
+      value.danJia = value.xiaoShouJia
+      value.zongJia = value.danJia * value.shuLiang
+      this.shangPinData.push(value)
+    },
+    // 商品合计规则
+    shangPinHeJiRules(param){
+      const {columns, data} = param;
+      const sums = [];
+      columns.forEach((column, index) => {
+        // 第一行为总计
+        if (index === 0) {
+          sums[index] = '总计';
+          return;
+        }
+        if (index === 5) {
+          const values = data.map(item => Number(item[column.property]));
+          // 判断当前是否为数字
+          if (!values.every(value => isNaN(value))) {
+            sums[index] = values.reduce((prev, curr) => {
+              const value = Number(curr);
+              if (!isNaN(value)) {
+                return prev + curr;
+              } else {
+                return prev;
+              }
+            }, 0);
+            sums[index] += ' 元';
+          } else {
+            sums[index] = '-';
+          }
+        }
+      });
+      //  返回最终结果
+      return sums;
+    },
+    // 商品数量改变后改变该商品的总价
+    changeShangPinCount(e1,e2){
+      // e1为当前行的数据 e2为当前行的索引
+      let count = e1.shuLiang
+      // 判断输入大于0
+      if(count<=0){
+        this.$message.error('数量必须大于等于1')
+      }
+      // 计算出总价后对表格数据重新赋值
+      this.shangPinData[e2].zongJia = count * this.shangPinData[e2].danJia
+    },
 
 
 

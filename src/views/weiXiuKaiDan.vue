@@ -295,7 +295,7 @@
 
       <h2>使用商品</h2>
       <div class="shangpinMenu">
-        <el-button size="small" type="primary" @click="shangpinS = true">选择使用商品</el-button>
+        <el-button size="small" type="primary" @click="shangPinDialogShow = true">选择使用商品</el-button>
       </div>
       <el-table :data="shangPinData" border show-summary :summary-method="shangPinHeJiRules" style="width: 100%;marginTop:15px;margin-bottom:25px">
         <el-table-column type="index" width="50"></el-table-column>
@@ -311,12 +311,14 @@
         <el-table-column prop="zongJia" width="100" label="总价"></el-table-column>
         <el-table-column prop="cheXing" label="适用车型"></el-table-column>
         <el-table-column label="操作" width="100">
-          <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+          <template v-slot="scope">
+          <el-button size="mini" type="danger" @click="shangPinDataDelete(scope.$index, scope.row)">删除</el-button>
+          </template>
         </el-table-column>
       </el-table>
 
       <!-- 使用商品弹出窗口 -->
-      <el-dialog title="使用商品" v-model="shangpinS" width="80%">
+      <el-dialog title="使用商品" v-model="shangPinDialogShow" width="80%">
         <el-form ref="form" :model="form" inline="true">
           <el-form-item>
             <el-input class="searchMargin" width="55" placeholder="商品名称"></el-input>
@@ -375,7 +377,7 @@
 
         <template v-slot:footer>
           <span class="dialog-footer">
-            <el-button @click="shangpinS = false">取 消</el-button>
+            <el-button @click="shangPinDialogShow = false">取 消</el-button>
             <el-button type="primary" @click="shangPinDialogOk">确 定</el-button>
           </span>
         </template>
@@ -386,33 +388,35 @@
       <div class="shangpinMenu">
         <el-button size="small" type="primary" @click="fuJia = true">新增附加费</el-button>
       </div>
-      <el-table :data="tableData" border show-summary style="width: 100%;marginTop:15px;margin-bottom:25px">
+      <el-table :data="fuJiaData" border :summary-method="fuJiaHeJiRules" show-summary style="width: 100%;marginTop:15px;margin-bottom:25px">
         <el-table-column type="index" width="50"></el-table-column>
         <el-table-column prop="name" label="附加费名称"></el-table-column>
-        <el-table-column prop="amount1" label="金额"></el-table-column>
-        <el-table-column prop="amount1" label="备注"></el-table-column>
+        <el-table-column prop="jinE" label="金额"></el-table-column>
+        <el-table-column prop="beiZhu" label="备注"></el-table-column>
         <el-table-column label="操作" width="100">
-          <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+          <template v-slot="scope">
+          <el-button size="mini" type="danger" @click="fuJiaDelete(scope.$index, scope.row)">删除</el-button>
+          </template>
         </el-table-column>
       </el-table>
 
       <!-- 新增附加费弹出窗口 -->
       <el-dialog title="新增附加费" v-model="fuJia" width="80%">
-        <el-form ref="form" :model="form">
+        <el-form ref="form" :model="fuJiaFrom">
           <el-form-item label="附加费名称">
-            <el-input class="searchMargin" width="55" placeholder="附加费名称"></el-input>
+            <el-input v-model="fuJiaFrom.name" class="searchMargin" width="55" placeholder="附加费名称"></el-input>
           </el-form-item>
           <el-form-item label="金额/元">
-            <el-input class="searchMargin" width="55" placeholder="金额/元"></el-input>
+            <el-input v-model="fuJiaFrom.jinE" class="searchMargin" width="55" placeholder="金额/元"></el-input>
           </el-form-item>
           <el-form-item label="备注">
-            <el-input class="searchMargin" width="55" placeholder="备注"></el-input>
+            <el-input v-model="fuJiaFrom.beiZhu" class="searchMargin" width="55" placeholder="备注"></el-input>
           </el-form-item>
         </el-form>
         <template v-slot:footer>
           <span class="dialog-footer">
             <el-button @click="fuJia = false">取 消</el-button>
-            <el-button type="primary" @click="fuJia = false">确 定</el-button>
+            <el-button type="primary" @click="fuJiaDialogOk">确 定</el-button>
           </span>
         </template>
       </el-dialog>
@@ -499,6 +503,9 @@ export default {
               amount3: 15
             }
           ],
+
+
+
 
 
       // 客户表单
@@ -600,6 +607,8 @@ export default {
       fuWuSelectionData: [],
       // 新增服务的值
       newFuWuData: {name: '', jinE: '', youHui: ''},
+
+
       // 商品表格数据
       shangPinData: [],
       // 企业已经设置好的服务项目
@@ -647,6 +656,15 @@ export default {
           cheXing: '马自达'
         },
       ],
+      // 选择商品中多选框改变的值
+      shangPinSelectionData: [],
+      // 控制选择商品弹框的显示隐藏
+      shangPinDialogShow:false,
+
+      // 附加费表格数据
+      fuJiaData:[],
+      // 附加费表单数据
+      fuJiaFrom:{name:"",jinE:'',beiZhu:''},
 
 
       message: "first",
@@ -681,10 +699,6 @@ export default {
         ;
   },
   methods: {
-    // 更改了选择服务中的施工人员
-    changePeople() {
-      console.log(this.fuWuData)
-    },
     // 选择服务项目
     selectFuWu(e) {
       // e为选择的值
@@ -818,6 +832,8 @@ export default {
         message: '删除成功'
       })
     },
+
+
     // 选择商品
     selectShangPin(e) {
       let value =  e
@@ -825,6 +841,7 @@ export default {
       value.danJia = value.xiaoShouJia
       value.zongJia = value.danJia * value.shuLiang
       this.shangPinData.push(value)
+      this.shangPinDialogShow =false
     },
     // 商品合计规则
     shangPinHeJiRules(param){
@@ -868,6 +885,110 @@ export default {
       // 计算出总价后对表格数据重新赋值
       this.shangPinData[e2].zongJia = count * this.shangPinData[e2].danJia
     },
+    // 删除使用商品
+    shangPinDataDelete(e){
+      this.shangPinData.splice(e, 1)
+      this.$message({
+        type: 'success',
+        message: '删除成功'
+      })
+    },
+  //选择商品弹窗的多选
+    shangPinDialogSelection(val){
+      // val为每次选择框状态改变后的所有被选中值
+      this.shangPinSelectionData = val
+    },
+    // 选择商品弹出框的确定方法
+    shangPinDialogOk(){
+      // 判断是否没有选中任何项目
+      if (this.shangPinSelectionData.length === 0) {
+        this.$confirm('你好像并没有选择任何商品，是否需要继续选择?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          // 点击确定，什么都不做
+        }).catch(() => {
+          // 取消 关闭弹出框
+          this.shangPinDialogShow = false
+        });
+      } else {
+        // 多选框中选定了内容  给每项数量变为1 计算总价  关闭弹出框
+        let value = this.shangPinSelectionData
+        value.forEach((item, index) => {
+          value[index].shuLiang = 1
+          value[index].danJia = value[index].xiaoShouJia
+          value[index].zongJia = value[index].shuLiang * value[index].danJia
+        })
+        this.shangPinData = this.shangPinData.concat(value)
+        this.shangPinDialogShow = false
+      }
+    },
+
+    //新增附加费弹框的确认方法
+    fuJiaDialogOk(){
+      // 判断金额名称不为空
+      if(this.fuJiaFrom.name != ''&&this.fuJiaFrom.jiNE != ''){
+        this.fuJiaData.push(this.fuJiaFrom)
+        this.fuJia=false
+        this.fuJiaFrom ={name:'',jinE:'',beiZhu: ''}
+      }else{
+        this.$confirm('附加费的金额或名称为空，是否需要继续编写?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          // 点击确定，什么都不做
+        }).catch(() => {
+          // 取消 关闭弹出框
+          this.fuJia = false
+        });
+      }
+
+    },
+    // 附加费表格合计规则
+    fuJiaHeJiRules(param){
+      const {columns, data} = param;
+      const sums = [];
+      columns.forEach((column, index) => {
+        // 第一行为总计
+        if (index === 0) {
+          sums[index] = '总计';
+          return;
+        }
+        if (index === 2) {
+          const values = data.map(item => Number(item[column.property]));
+          // 判断当前是否为数字
+          if (!values.every(value => isNaN(value))) {
+            sums[index] = values.reduce((prev, curr) => {
+              const value = Number(curr);
+              if (!isNaN(value)) {
+                return prev + curr;
+              } else {
+                return prev;
+              }
+            }, 0);
+            sums[index] += ' 元';
+          } else {
+            sums[index] = '-';
+          }
+        }
+      });
+      //  返回最终结果
+      return sums;
+    },
+    // 删除附加费
+    fuJiaDelete(e){
+      this.fuJiaData.splice(e,1)
+      this.$message.success('删除成功')
+    },
+
+
+
+
+
+
+
 
 
 

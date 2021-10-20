@@ -5,9 +5,9 @@
 ## 安装步骤
 
 ```
-git clone https://github.com/lin-xin/vue-manage-system.git      // 把模板下载到本地
-cd vue-manage-system    // 进入模板目录
-npm install         // 安装项目依赖，等待安装完成之后，安装失败可用 cnpm 或 yarn
+git clone https://github.com/mashuai666/carCompany.git      // 把模板下载到本地
+
+npm install         // 根目录安装项目依赖，等待安装完成之后，安装失败可用 cnpm 或 yarn
 
 // 开启服务器，浏览器访问 http://localhost:8080
 npm run serve
@@ -18,11 +18,16 @@ npm run build
 
 ## 组件使用说明与演示
 
+### Mock.js
+生成随机数据，拦截 Ajax 请求
+
+官网地址：
+```http://mockjs.com/```
+
 ### vue-schart
 
 vue.js 封装 sChart.js 的图表组件。访问地址：[vue-schart](https://github.com/linxin/vue-schart)
 
-<p><a href="https://www.npmjs.com/package/vue-schart"><img src="https://img.shields.io/npm/dm/vue-schart.svg" alt="Downloads"></a></p>
 
 ```html
 <template>

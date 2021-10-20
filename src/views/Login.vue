@@ -13,7 +13,7 @@
                 <el-form-item prop="password">
                     <el-input
                         type="password"
-                        placeholder="password"
+                        placeholder="密码"
                         v-model="param.password"
                         @keyup.enter="submitForm()"
                     >
@@ -25,19 +25,20 @@
                 <div class="login-btn">
                     <el-button type="primary" @click="submitForm()">登录</el-button>
                 </div>
-                <p class="login-tips">Tips : 用户名和密码随便填。</p>
+                <p class="login-tips">Tips : 用户名:mashuai 密码：123456。</p>
             </el-form>
         </div>
     </div>
 </template>
 
 <script>
+import { login } from "../api/login";
 export default {
     data() {
         return {
             param: {
-                username: "admin",
-                password: "123123"
+                username: "",
+                password: ""
             },
             rules: {
                 username: [
@@ -56,14 +57,21 @@ export default {
         submitForm() {
             this.$refs.login.validate(valid => {
                 if (valid) {
-                    this.$message.success("登录成功");
-                    localStorage.setItem("ms_username", this.param.username);
-                    this.$router.push("/");
+                  login(this.param).then(res => {
+                    console.log(res)
+                    if(res.status){
+                      sessionStorage.setItem("sessionId", JSON.stringify(res.result));
+                      this.$router.push('/dashboard')
+                    }else{
+                      this.$message.error("账号或密码错误");
+                    }
+                  })
                 } else {
                     this.$message.error("请输入账号和密码");
                     return false;
                 }
             });
+
         }
     }
 };

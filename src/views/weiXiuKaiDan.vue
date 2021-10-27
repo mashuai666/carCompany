@@ -10,11 +10,11 @@
       </el-breadcrumb>
     </div>
     <div class="container">
-      <h2>客户信息</h2>
+      <h2 id="keHuForm">客户信息</h2>
       <el-form
           :model="keHuForm"
           :rules="keHuRules"
-          ref="ruleForm"
+          ref="keHuForm"
           label-width="120px"
           class="demo-ruleForm"
           :inline="true"
@@ -40,11 +40,11 @@
         </el-form-item>
       </el-form>
 
-      <h2>车辆信息</h2>
+      <h2 id="carForm">车辆信息</h2>
       <el-form
           :model="carForm"
           :rules="carRules"
-          ref="ruleForm"
+          ref="carForm"
           label-width="120px"
           class="demo-ruleForm"
           :inline="true"
@@ -204,7 +204,7 @@
         </el-form-item>
       </el-form>
 
-      <h2>服务项目</h2>
+      <h2 id="fuWuData">服务项目</h2>
       <div class="fuWuMenu">
         <el-button size="small" type="primary" @click="fuWuDialogShow = true">选择服务项目</el-button>
         <el-button size="small" type="primary" @click="fuWuDialogShowB = true">新增服务项目</el-button>
@@ -425,10 +425,11 @@
         </template>
       </el-dialog>
 
+<!--      最底部确认条-->
       <el-card>
         <div class="botCard">
           <div>总计：<span style="color:red;font-weight: bold;font-size: 20px">￥{{
-              totalMoney.fuJia + totalMoney.fuWu + totalMoney.shangPin
+              totalMoneys
             }}</span> 元
           </div>
           <div>
@@ -437,6 +438,84 @@
           </div>
         </div>
       </el-card>
+
+<!--     确认的弹出框-->
+      <el-dialog title="提交成功" v-model="tiJiaoDialog" width="50%">
+        <div>订单提交成功，当前状态为：<span style="color: #20a0ff">[待施工]</span> </div><br/>
+        <div>可在 <span style="color: #20a0ff;text-decoration: underline;cursor: pointer">订单中心-待施工</span> 中进行查看</div>
+        <div>点击 确定 跳转至首页</div>
+        <template v-slot:footer>
+          <span class="dialog-footer">
+            <el-button @click="wanGong">完工并结算</el-button>
+            <el-button type="primary" @click="dingDanWanCheng">确 定</el-button>
+          </span>
+        </template>
+      </el-dialog>
+
+<!--      结算弹出框-->
+      <el-dialog lock-scroll='false'   v-model="jieSuanDialog" width="50%">
+       <div class="jieSuanTop">
+         <div class="number">陕A-10000</div>
+         <div class="name">马帅帅</div>
+       </div>
+        <div class="jieSuanMid">
+          <el-card class="card1">
+            <h3>结算信息</h3><br>
+            <el-form  :model="totalMoney" label-width="80px">
+              <el-form-item size="mini"  label="服务费用">
+                <el-input disabled v-model="totalMoney.fuWu"></el-input>
+              </el-form-item>
+              <el-form-item  size="mini" label="商品费用">
+                <el-input disabled v-model="totalMoney.shangPin"></el-input>
+              </el-form-item >
+              <el-form-item  size="mini" label="附加费用">
+                <el-input disabled v-model="totalMoney.fuJia"></el-input>
+              </el-form-item>
+              <el-form-item  size="mini" label="总   计">
+                <el-input disabled v-model="totalMoneys"></el-input>
+              </el-form-item>
+            </el-form>
+          </el-card>
+          <el-card class="card2">
+            <h3>收款信息</h3><br>
+            <el-form  :model="totalMoney" label-width="80px">
+              <el-form-item  size="mini" label="结算时间">
+                <el-date-picker
+                    type="datetime"
+                    placeholder="选择日期时间">
+                </el-date-picker>
+              </el-form-item>
+              <el-form-item size="mini"  label="收款方式">
+                <el-select  placeholder="选择收款方式">
+                  <el-option label="微信" value=""></el-option>
+                  <el-option label="支付宝" value="beijing"></el-option>
+                  <el-option label="现金" value="beijing"></el-option>
+                  <el-option label="其他" value="beijing"></el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item  size="mini" label="收款人员">
+                <el-select  placeholder="选择收款人员">
+                  <el-option label="小王" value=""></el-option>
+                  <el-option label="小李" value="beijing"></el-option>
+                  <el-option label="小张" value="beijing"></el-option>
+                </el-select>
+              </el-form-item >
+              <el-form-item  size="mini" label="结算备注">
+                <el-input  v-model="totalMoneys"></el-input>
+              </el-form-item>
+            </el-form>
+          </el-card>
+        </div>
+        <template v-slot:footer>
+          <span class="dialog-footer">
+            <el-button>取 消</el-button>
+            <el-button type="primary" >结 算</el-button>
+          </span>
+        </template>
+      </el-dialog>
+
+
+
     </div>
   </div>
 </template>
@@ -675,38 +754,12 @@ export default {
         shangPin: 2,
         fuJia: 3
       },
+      // 提交成功的弹出框
+      tiJiaoDialog:false,
+      // 结算弹出框
+      jieSuanDialog:true
 
-
-      message: "first",
-      showHeader:
-          false,
-      unread:
-          [
-            {
-              date: "2018-04-19 20:00:00",
-              title: "【系统通知】该系统将于今晚凌晨2点到5点进行升级维护"
-            },
-            {
-              date: "2018-04-19 21:00:00",
-              title: "今晚12点整发大红包，先到先得"
-            }
-          ],
-      read:
-          [
-            {
-              date: "2018-04-19 20:00:00",
-              title: "【系统通知】该系统将于今晚凌晨2点到5点进行升级维护"
-            }
-          ],
-      recycle:
-          [
-            {
-              date: "2018-04-19 20:00:00",
-              title: "【系统通知】该系统将于今晚凌晨2点到5点进行升级维护"
-            }
-          ]
-    }
-        ;
+    };
   },
   methods: {
     // 选择服务项目
@@ -1011,12 +1064,62 @@ export default {
 
     // 提交
     tiTjiao() {
-      fetch("/api/users")
-          .then((res) => {
-            console.log(res)
-          })
+      this.$refs['keHuForm'].validate((valid) => {
+        if (valid) {
+          this.$refs['carForm'].validate(valid => {
+            if (valid) {
+              if (this.fuWuData.length) {
+                // 验证所有必填项已经正确 进行提交操作 打开提交弹出框
+                this.tiJiaoDialog = true
 
+              } else {
+                this.$message.error('没有填写服务项目')
+                document.getElementById('fuWuData').scrollIntoView();
+              }
+            } else {
+              this.$message.error('车牌号没有正确填写')
+              document.getElementById('carForm').scrollIntoView();
+            }
+          })
+        } else {
+          this.$message.error('客户的姓名或手机号没有正确填写')
+          document.getElementById('keHuForm').scrollIntoView();
+        }
+      });
     },
+    // 完工并结算
+    wanGong(){
+      // this.$confirm('完工结算后订单将无法修改，是否继续?', '完工并结算', {
+      //   confirmButtonText: '确定',
+      //   cancelButtonText: '取消',
+      //   type: 'warning'
+      // }).then(() => {
+      //   this.$message({
+      //     type: 'success',
+      //     message: '操作成功!',
+      //   });
+      //   // 关闭提交弹出框
+      //   this.tiJiaoDialog =false
+      // })
+    },
+    // 订单完成弹出框确定
+    dingDanWanCheng(){
+      this.$message.success('操作成功')
+      this.tiJiaoDialog =false
+      // 关闭当前标签页
+      this.$store.commit("closeCurrentTag", {
+        $router: this.$router,
+        $route: this.$route
+      });
+      // 跳转路由
+      this.$router.push('dashboard')
+    },
+
+
+
+
+
+
 
 
     submitForm(formName) {
@@ -1075,6 +1178,11 @@ export default {
     }
   },
   computed: {
+    // 合计价格
+    totalMoneys(){
+      return this.totalMoney.fuJia +  this.totalMoney.fuWu +  this.totalMoney.shangPin
+    },
+
     unreadNum() {
       return this.unread.length;
     }
@@ -1108,5 +1216,27 @@ h2 {
   display: flex;
   justify-content: space-between;
 }
+.jieSuanTop{
+  display: flex;
+  align-items: center;
+  margin: 0 auto;
+  width: 170px;
+  font-weight: bold;
+  font-size: 20px;
+  justify-content: space-between;
+  color: #409EFF;
+}
+.jieSuanMid{
+  display: flex;
+  margin-top: 10px;
+  justify-content: space-between;
+}
+.jieSuanMid .card1{
+  width: 39%;
+}
+.jieSuanMid .card2{
+  width: 59%;
+}
+
 </style>
 

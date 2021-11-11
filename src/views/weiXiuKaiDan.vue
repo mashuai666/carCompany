@@ -478,30 +478,31 @@
           </el-card>
           <el-card class="card2">
             <h3>收款信息</h3><br>
-            <el-form  :model="totalMoney" label-width="80px">
+            <el-form  :model="shouKuanInfo" label-width="80px">
               <el-form-item  size="mini" label="结算时间">
                 <el-date-picker
                     type="datetime"
+                    v-model="shouKuanInfo.dataTime"
                     placeholder="选择日期时间">
                 </el-date-picker>
               </el-form-item>
               <el-form-item size="mini"  label="收款方式">
-                <el-select  placeholder="选择收款方式">
-                  <el-option label="微信" value=""></el-option>
-                  <el-option label="支付宝" value="beijing"></el-option>
-                  <el-option label="现金" value="beijing"></el-option>
-                  <el-option label="其他" value="beijing"></el-option>
+                <el-select v-model="shouKuanInfo.method"  placeholder="选择收款方式">
+                  <el-option label="微信" value="1"></el-option>
+                  <el-option label="支付宝" value="2"></el-option>
+                  <el-option label="现金" value="3"></el-option>
+                  <el-option label="其他" value="4"></el-option>
                 </el-select>
               </el-form-item>
-              <el-form-item  size="mini" label="收款人员">
-                <el-select  placeholder="选择收款人员">
-                  <el-option label="小王" value=""></el-option>
-                  <el-option label="小李" value="beijing"></el-option>
-                  <el-option label="小张" value="beijing"></el-option>
+              <el-form-item   size="mini" label="收款人员">
+                <el-select v-model="shouKuanInfo.people"  placeholder="选择收款人员">
+                  <el-option label="小王" value="1"></el-option>
+                  <el-option label="小李" value="2"></el-option>
+                  <el-option label="小张" value="3"></el-option>
                 </el-select>
               </el-form-item >
               <el-form-item  size="mini" label="结算备注">
-                <el-input  v-model="totalMoneys"></el-input>
+                <el-input  v-model="shouKuanInfo.beiZhu"></el-input>
               </el-form-item>
             </el-form>
           </el-card>
@@ -509,7 +510,7 @@
         <template v-slot:footer>
           <span class="dialog-footer">
             <el-button>取 消</el-button>
-            <el-button type="primary" >结 算</el-button>
+            <el-button type="primary" @click="jieSuan">结 算</el-button>
           </span>
         </template>
       </el-dialog>
@@ -522,7 +523,7 @@
 
 <script>
 export default {
-  name: "tabs",
+  name: "weiXiuKaiDan",
   data() {
     return {
       switchIs: true,
@@ -757,7 +758,14 @@ export default {
       // 提交成功的弹出框
       tiJiaoDialog:false,
       // 结算弹出框
-      jieSuanDialog:true
+      jieSuanDialog:false,
+      // 收款信息
+      shouKuanInfo:{
+        dataTime:'',
+        method:'',
+        people:'',
+        beiZhu:''
+      }
 
     };
   },
@@ -1089,18 +1097,17 @@ export default {
     },
     // 完工并结算
     wanGong(){
-      // this.$confirm('完工结算后订单将无法修改，是否继续?', '完工并结算', {
-      //   confirmButtonText: '确定',
-      //   cancelButtonText: '取消',
-      //   type: 'warning'
-      // }).then(() => {
-      //   this.$message({
-      //     type: 'success',
-      //     message: '操作成功!',
-      //   });
-      //   // 关闭提交弹出框
-      //   this.tiJiaoDialog =false
-      // })
+      this.$confirm('完工结算后订单将无法修改，是否继续?', '完工并结算', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        // 关闭提交弹出框
+        this.tiJiaoDialog =false
+        // 打开结算弹框
+        this.jieSuanDialog =true
+
+      })
     },
     // 订单完成弹出框确定
     dingDanWanCheng(){
@@ -1113,6 +1120,18 @@ export default {
       });
       // 跳转路由
       this.$router.push('dashboard')
+    },
+    // 结算弹框中的结算按钮
+    jieSuan(){
+      this.$confirm('确认结算吗', '结算', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$router.push('/weiXiuDan')
+        // 关闭提交弹出框
+        this.jieSuanDialog =false
+      })
     },
 
 

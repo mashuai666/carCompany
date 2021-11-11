@@ -17,7 +17,6 @@ const routes = [
                     title: '系统首页'
                 },
                 component: () => import (
-                /* webpackChunkName: "dashboard" */
                 "../views/Dashboard.vue")
             }, 
             {
@@ -27,16 +26,34 @@ const routes = [
                     title: '维修开单'
                 },
                 component: () => import (
-                /* webpackChunkName: "dashboard" */
                 "../views/weiXiuKaiDan.vue")
-            }, 
-            
-            
-            
-            
-            
-            
-            
+            },
+            {
+                path: "/weiXiuDan",
+                name: "weiXiuDan",
+                meta: {
+                    title: '维修单打印'
+                },
+                component: () => import (
+                    "../views/weiXiuDan.vue")
+            },
+            {
+                path: "/weiXiuLiShi",
+                name: "weiXiuLiShi",
+                meta: {
+                    title: '维修历史'
+                },
+                component: () => import (
+                    "../views/weiXiuLiShi.vue")
+            },
+
+
+
+
+
+
+
+
             {
                 path: "/table",
                 name: "basetable",

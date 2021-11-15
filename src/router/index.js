@@ -46,6 +46,52 @@ const routes = [
                 component: () => import (
                     "../views/weiXiuLiShi.vue")
             },
+            {
+                path: "/weiXiuXiangQing",
+                name: "weiXiuXiangQing",
+                meta: {
+                    title: '维修详情'
+                },
+                component: () => import (
+                    "../views/weiXiuXiangQing.vue")
+            },
+            {
+                path: "/shangPinCaiGou",
+                name: "shangPinCaiGou",
+                meta: {
+                    title: '商品采购'
+                },
+                component: () => import (
+                    "../views/shangPinCaiGou.vue")
+            },
+            {
+                path: "/caiGouJiLu",
+                name: "caiGouJiLu",
+                meta: {
+                    title: '采购记录'
+                },
+                component: () => import (
+                    "../views/caiGouJiLu.vue")
+            },
+            {
+                path: "/daoRuShangPin",
+                name: "daoRuShangPin",
+                meta: {
+                    title: '导入商品'
+                },
+                component: () => import (
+                    "../views/daoRuShangPin.vue")
+            },
+            {
+                path: "/kuCunZhongXin",
+                name: "kuCunZhongXin",
+                meta: {
+                    title: '库存中心'
+                },
+                component: () => import (
+                    "../views/kuCunZhongXin.vue")
+            },
+
 
 
 

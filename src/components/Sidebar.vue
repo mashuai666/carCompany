@@ -70,6 +70,32 @@ export default {
         },
 
         {
+          icon: "el-icon-lx-calendar",
+          index: "2",
+          title: "采购中心",
+          subs: [
+            {
+              index: "shangPinCaiGou",
+              title: "商品采购"
+            },
+            {
+              index: "caiGouJiLu",
+              title: "采购记录"
+            },
+
+          ]
+        },
+        {
+          icon: "el-icon-lx-home",
+          index: "kuCunZhongXin",
+          title: "库存中心"
+        },
+
+
+
+
+
+        {
           icon: "el-icon-lx-cascades",
           index: "table",
           title: "基础表格"

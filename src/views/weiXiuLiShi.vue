@@ -9,46 +9,21 @@
       </el-breadcrumb>
     </div>
     <div class="container">
-      <el-tooltip
-          class="item"
-          effect="dark"
-          content="历史所有订单"
-          placement="top"
-      >
-        <el-button type="primary" :plain="false">全部</el-button>
-      </el-tooltip>
-      <el-tooltip
-          class="item"
-          effect="dark"
-          content="没有开始施工的订单"
-          placement="top"
-      >
-        <el-button type="primary" :plain="true">待施工</el-button>
-      </el-tooltip>
-      <el-tooltip
-          class="item"
-          effect="dark"
-          content="正在施工的订单"
-          placement="top"
-      >
-        <el-button type="primary" :plain="true">施工中</el-button>
-      </el-tooltip>
-      <el-tooltip
-          class="item"
-          effect="dark"
-          content="已经完成的订单"
-          placement="top"
-      >
-        <el-button type="primary" :plain="true">已完工</el-button>
-      </el-tooltip>
-      <el-tooltip
-          class="item"
-          effect="dark"
-          content="意外中途结束的订单"
-          placement="top"
-      >
-        <el-button type="primary" :plain="true">中断工单</el-button>
-      </el-tooltip>
+      <label style="margin-right: 10px;">订单状态查找</label>
+      <el-select v-model="value" placeholder="Select">
+        <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+        >
+        </el-option>
+      </el-select>
+
+      <label style="margin-right: 10px;margin-left: 10px;">接车时间查找</label>
+      <el-date-picker v-model="valuea" type="date" placeholder="选择日期">
+      </el-date-picker>
+
 
 
       <el-table
@@ -60,24 +35,36 @@
     "
           style="width: 100%;margin-top: 10px"
       >
-        <el-table-column label="接车时间" sortable  width="180" prop="date"/>
-        <el-table-column label="开单时间" sortable  width="180" prop="date"/>
-        <el-table-column label="车牌号" width="100" prop="carNumber"/>
-        <el-table-column label="姓名" width="100" prop="name"/>
-        <el-table-column label="手机号" width="130" prop="phone"/>
-        <el-table-column label="车型" prop="cheXing"/>
-        <el-table-column label="VIN" width="200" prop="vin"/>
-        <el-table-column label="状态" width="100" prop="state"/>
-
-
-
-        <el-table-column align="right">
+        <el-table-column label="采购单号" width="200" prop="orderId"/>
+        <el-table-column label="商品名称" width="100" prop="name"/>
+        <el-table-column label="数量" width="100" prop="number"/>
+        <el-table-column label="单位" width="180" prop="date"/>
+        <el-table-column label="进货价" width="180" prop="date"/>
+        <el-table-column label="销售价" width="130" prop="phone"/>
+        <el-table-column label="采购时间"  prop="cheXing"/>
+        <el-table-column label="供应商名称"  prop="cheXing"/>
+        <el-table-column label="采购人" width="100" prop="state"/>
+        <el-table-column fixed="right" align="right"  >
           <template #header>
             <el-input
                 v-model="search"
-                placeholder="车牌号/姓名/手机号/订单号"
                 class="input-with-select"
             >
+              <template #prepend>
+                <el-tooltip
+                    class="item"
+                    effect="dark"
+                    content="选择要查找的类别"
+                    placement="top"
+                >
+                <el-select v-model="select"  style="width: 110px">
+                  <el-option label="订单号" value="1"></el-option>
+                  <el-option label="手机号" value="2"></el-option>
+                  <el-option label="车牌号" value="3"></el-option>
+                  <el-option label="姓名" value="4"></el-option>
+                </el-select>
+                </el-tooltip>
+              </template>
               <template #append>
                 <el-button icon="el-icon-search"></el-button>
               </template>
@@ -85,7 +72,6 @@
           </template>
           <template #default="scope">
             <el-button size="mini" @click="handleDelete(scope.$index, scope.row)">详情</el-button>
-            <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
             <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
           </template>
         </el-table-column>
@@ -107,7 +93,7 @@ export default {
           name: '小马马',
           phone:'17391856792',
           cheXing:'这里是车型这里是车型这里是车型这里型',
-          vin:'SSJZNSJXNSHQURYSGZ',
+          orderId:'SD20211115153120',
           state:'已完工'
         },
         {
@@ -116,7 +102,7 @@ export default {
           name: '小马马',
           phone:'17391856792',
           cheXing:'这里是车型这里是车型这里是车型这里是',
-          vin:'SSJZNSJXNSHQURYSGZ',
+          orderId:'SD20211115153120',
           state:'已完工'
         },
         {
@@ -125,7 +111,7 @@ export default {
           name: '小马马',
           phone:'17391856792',
           cheXing:'这里是车型这里是车型这里是车型这里',
-          vin:'SSJZNSJXNSHQURYSGZ',
+          orderId:'SD20211115153120',
           state:'已完工'
         },
 
@@ -135,7 +121,7 @@ export default {
           name: '小马马',
           phone:'17391856792',
           cheXing:'这里是车型这里是车型这里是车型是车型',
-          vin:'SSJZNSJXNSHQURYSGZ',
+          orderId:'SD20211115153120',
           state:'已完工'
         },{
           date: '2016-05-03 15:45:25',
@@ -143,7 +129,7 @@ export default {
           name: '小马马',
           phone:'17391856792',
           cheXing:'这里是车型这里是车型这里是车型是车型',
-          vin:'SSJZNSJXNSHQURYSGZ',
+          orderId:'SD20211115153120',
           state:'已完工'
         },{
           date: '2016-05-01 15:45:25',
@@ -151,7 +137,7 @@ export default {
           name: '小马马',
           phone:'17391856792',
           cheXing:'这里是车型这里是车型这里是车里是车型',
-          vin:'SSJZNSJXNSHQURYSGZ',
+          orderId:'SD20211115153120',
           state:'已完工'
         },{
           date: '2016-05-08 15:45:25',
@@ -159,11 +145,37 @@ export default {
           name: '小马马',
           phone:'17391856792',
           cheXing:'这里是车型这里是车型这里是车型是车型',
-          vin:'SSJZNSJXNSHQURYSGZ',
+          orderId:'SD20211115153120',
           state:'已完工'
         },
       ],
       search: '',
+      value: '全部',
+      select:'订单号',
+      valuea:'',
+      options: [
+        {
+          value: '1',
+          label: '全部'
+        },
+        {
+          value: '2',
+          label: '待施工'
+        },
+        {
+          value: '3',
+          label: '施工中'
+        },
+        {
+          value: '4',
+          label: '已完工'
+        },
+        {
+          value: '5',
+          label: '中断工单'
+        },
+
+      ],
     }
   },
   methods: {

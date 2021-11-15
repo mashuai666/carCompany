@@ -21,8 +21,11 @@
           <a-descriptions-item label="单号">
             SD20211110170035
           </a-descriptions-item>
+          <a-descriptions-item label="接单时间">
+            2021-11-10 17:01:25
+          </a-descriptions-item>
           <a-descriptions-item label="开单时间">
-            2021/11/10 17:01
+            2021-11-10 17:01:54
           </a-descriptions-item>
         </a-descriptions>
         <a-descriptions :column=4 style="margin-top: 10px" size="middle" bordered title="基本信息">

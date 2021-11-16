@@ -35,15 +35,15 @@
     "
           style="width: 100%;margin-top: 10px"
       >
-        <el-table-column label="采购单号" width="200" prop="orderId"/>
-        <el-table-column label="商品名称" width="100" prop="name"/>
-        <el-table-column label="数量" width="100" prop="number"/>
-        <el-table-column label="单位" width="180" prop="date"/>
-        <el-table-column label="进货价" width="180" prop="date"/>
-        <el-table-column label="销售价" width="130" prop="phone"/>
-        <el-table-column label="采购时间"  prop="cheXing"/>
-        <el-table-column label="供应商名称"  prop="cheXing"/>
-        <el-table-column label="采购人" width="100" prop="state"/>
+        <el-table-column label="维修单号" width="200" prop="orderId"/>
+        <el-table-column label="姓名" width="100" prop="name"/>
+        <el-table-column label="车牌号" width="100" prop="carNumber"/>
+        <el-table-column label="电话" width="130" prop="phone"/>
+        <el-table-column label="接车时间" width="180" prop="date"/>
+        <el-table-column label="开单时间" width="180" prop="date"/>
+        <el-table-column label="车型"  prop="cheXing"/>
+<!--        <el-table-column label="供应商名称"  prop="cheXing"/>-->
+        <el-table-column label="状态" width="100" prop="state"/>
         <el-table-column fixed="right" align="right"  >
           <template #header>
             <el-input

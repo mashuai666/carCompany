@@ -24,14 +24,15 @@
     "
           style="width: 100%;margin-top: 10px"
       >
-        <el-table-column label="订单号" width="200" prop="orderId"/>
-        <el-table-column label="车牌号" width="100" prop="carNumber"/>
-        <el-table-column label="姓名" width="100" prop="name"/>
-        <el-table-column label="接车时间" width="180" prop="date"/>
-        <el-table-column label="开单时间" width="180" prop="date"/>
-        <el-table-column label="手机号" width="130" prop="phone"/>
-        <el-table-column label="车型"  prop="cheXing"/>
-        <el-table-column label="状态" width="100" prop="state"/>
+        <el-table-column label="商品名称" width="200" prop="name"/>
+        <el-table-column label="数量" width="50" prop="number"/>
+        <el-table-column label="单位" width="50" prop="danWei"/>
+        <el-table-column label="采购时间" width="180" prop="date"/>
+        <el-table-column label="进货价/元" width="100" prop="jinHuo"/>
+        <el-table-column label="销售价/元" width="100" prop="xiaoShou"/>
+        <el-table-column label="规格型号"  width="150" prop="xingHao"/>
+        <el-table-column label="OE号" width="150" prop="OE"/>
+        <el-table-column label="采购人" width="150" prop="people"/>
         <el-table-column fixed="right" align="right"  >
           <template #header>
             <el-input
@@ -46,10 +47,10 @@
                     placement="top"
                 >
                   <el-select v-model="select"  style="width: 110px">
-                    <el-option label="订单号" value="1"></el-option>
-                    <el-option label="手机号" value="2"></el-option>
-                    <el-option label="车牌号" value="3"></el-option>
-                    <el-option label="姓名" value="4"></el-option>
+                    <el-option label="商品名称" value="1"></el-option>
+                    <el-option label="规格型号" value="2"></el-option>
+                    <el-option label="OE号" value="3"></el-option>
+                    <el-option label="采购人" value="4"></el-option>
                   </el-select>
                 </el-tooltip>
               </template>
@@ -81,19 +82,20 @@ export default {
           date: '2021-01-02 12:35:12',
           jinHuo: '125',
           xiaoShou: '150',
-          faPiao: '15412541541',
-          gongYingName: '配件供应商',
-          PinPai: '品牌呀',
           xingHao: 'YSHD-014414',
-          bianMa: '254254154',
-          OE: '5425412451245',
-          cheXing: '适用车型',
+          OE: '125412541254125',
           people: '小王往'
+
+          // faPiao: '15412541541',
+          // gongYingName: '配件供应商',
+          // PinPai: '品牌呀',
+          // bianMa: '254254154',
+          // cheXing: '适用车型',
     }
       ],
       search: '',
       value: '全部',
-      select:'订单号',
+      select:'商品名称',
       valuea:'',
       options: [
         {

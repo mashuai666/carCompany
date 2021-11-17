@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import { login } from "../api/login";
+// import { login } from "../api/login";
 export default {
     data() {
         return {
@@ -55,22 +55,25 @@ export default {
     },
     methods: {
         submitForm() {
-            this.$refs.login.validate(valid => {
-                if (valid) {
-                  login(this.param).then(res => {
-                    console.log(res)
-                    if(res.status){
-                      sessionStorage.setItem("sessionId", JSON.stringify(res.result));
-                      this.$router.push('/dashboard')
-                    }else{
-                      this.$message.error("账号或密码错误");
-                    }
-                  })
-                } else {
-                    this.$message.error("请输入账号和密码");
-                    return false;
-                }
-            });
+          console.log('asd')
+          sessionStorage.setItem("sessionId", 'asd');
+          this.$router.push('/dashboard')
+            // this.$refs.login.validate(valid => {
+            //     if (valid) {
+            //       login(this.param).then(res => {
+            //         console.log(res)
+            //         if(res.status){
+            //           sessionStorage.setItem("sessionId", JSON.stringify(res.result));
+            //           this.$router.push('/dashboard')
+            //         }else{
+            //           this.$message.error("账号或密码错误");
+            //         }
+            //       })
+            //     } else {
+            //         this.$message.error("请输入账号和密码");
+            //         return false;
+            //     }
+            // });
 
         }
     }

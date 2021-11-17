@@ -106,6 +106,11 @@ export default {
 
           ]
         },
+        {
+          icon: "el-icon-lx-home",
+          index: "sheZhiZhongXin",
+          title: "设置中心"
+        },
 
 
 

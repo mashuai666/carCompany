@@ -219,7 +219,7 @@
 </template>
 
 <script>
-import { home } from "../api/home/index.js";
+// import { home } from "../api/home/index.js";
 // import Schart from "vue-schart";
 export default {
   name: "dashboard",
@@ -343,11 +343,11 @@ export default {
     };
   },
   mounted() {
-    home(
-        {username:JSON.parse(sessionStorage.getItem('sessionId'))}
-    ).then(res => {
-      console.log(res)
-    })
+    // home(
+    //     {username:JSON.parse(sessionStorage.getItem('sessionId'))}
+    // ).then(res => {
+    //   console.log(res)
+    // })
   },
   components: {
     // Schart

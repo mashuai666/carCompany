@@ -109,6 +109,15 @@ const routes = [
                 component: () => import (
                     "../views/huiFangKeHu.vue")
             },
+            {
+                path: "/sheZhiZhongXin",
+                name: "sheZhiZhongXin",
+                meta: {
+                    title: '设置中心'
+                },
+                component: () => import (
+                    "../views/sheZhiZhongXin.vue")
+            },
 
 
 

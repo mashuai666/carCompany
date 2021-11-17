@@ -90,6 +90,22 @@ export default {
           index: "kuCunZhongXin",
           title: "库存中心"
         },
+        {
+          icon: "el-icon-lx-calendar",
+          index: "4",
+          title: "客户中心",
+          subs: [
+            {
+              index: "keHuGuanLi",
+              title: "客户管理"
+            },
+            {
+              index: "huiFangKeHu",
+              title: "回访客户"
+            },
+
+          ]
+        },
 
 
 

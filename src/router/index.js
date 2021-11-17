@@ -91,6 +91,24 @@ const routes = [
                 component: () => import (
                     "../views/kuCunZhongXin.vue")
             },
+            {
+                path: "/keHuGuanLi",
+                name: "keHuGuanLi",
+                meta: {
+                    title: '客户管理'
+                },
+                component: () => import (
+                    "../views/keHuGuanLi.vue")
+            },
+            {
+                path: "/huiFangKeHu",
+                name: "huiFangKeHu",
+                meta: {
+                    title: '回访客户'
+                },
+                component: () => import (
+                    "../views/huiFangKeHu.vue")
+            },
 
 
 

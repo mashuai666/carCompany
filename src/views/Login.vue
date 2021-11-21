@@ -4,7 +4,7 @@
             <div class="ms-title">后台管理系统</div>
             <el-form :model="param" :rules="rules" ref="login" label-width="0px" class="ms-content">
                 <el-form-item prop="username">
-                    <el-input v-model="param.username" placeholder="username">
+                    <el-input v-model="param.phone" placeholder="手机号">
                         <template #prepend>
                             <el-button icon="el-icon-user"></el-button>
                         </template>
@@ -25,24 +25,24 @@
                 <div class="login-btn">
                     <el-button type="primary" @click="submitForm()">登录</el-button>
                 </div>
-                <p class="login-tips">Tips : 用户名:mashuai 密码：123456。</p>
+                <p class="login-tips">Tips : 手机号:17391856792 密码：123456。</p>
             </el-form>
         </div>
     </div>
 </template>
 
 <script>
-// import { login } from "../api/login";
+import { login } from "../api/login";
 export default {
     data() {
         return {
             param: {
-                username: "",
+              phone: "",
                 password: ""
             },
             rules: {
-                username: [
-                    { required: true, message: "请输入用户名", trigger: "blur" }
+              phone: [
+                    { required: true, message: "请输入手机号", trigger: "blur" }
                 ],
                 password: [
                     { required: true, message: "请输入密码", trigger: "blur" }
@@ -55,25 +55,25 @@ export default {
     },
     methods: {
         submitForm() {
-          console.log('asd')
-          sessionStorage.setItem("sessionId", 'asd');
-          this.$router.push('/dashboard')
-            // this.$refs.login.validate(valid => {
-            //     if (valid) {
-            //       login(this.param).then(res => {
-            //         console.log(res)
-            //         if(res.status){
-            //           sessionStorage.setItem("sessionId", JSON.stringify(res.result));
-            //           this.$router.push('/dashboard')
-            //         }else{
-            //           this.$message.error("账号或密码错误");
-            //         }
-            //       })
-            //     } else {
-            //         this.$message.error("请输入账号和密码");
-            //         return false;
-            //     }
-            // });
+
+            this.$refs.login.validate(valid => {
+                if (valid) {
+                  login(this.param).then(res => {
+                    // sessionStorage.setItem("sessionId", JSON.stringify(res.result));
+                    // this.$router.push('/dashboard')
+                    if(res.status!==200){
+                      this.$message.error(res.data)
+                      return
+                    }
+                    sessionStorage.setItem("token", res.data.token);
+                    sessionStorage.setItem("userInfo", res.data.userInfo);
+                    this.$router.push('/index')
+                  })
+                } else {
+                    this.$message.error("请输入账号和密码");
+                    return false;
+                }
+            });
 
         }
     }

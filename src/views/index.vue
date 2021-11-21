@@ -85,52 +85,52 @@
           <el-tabs v-model="message">
             <el-tab-pane :label="`全部(${oneData.length})`" name="first">
               <el-table :data="oneData" :show-header="false" style="width: 100%">
-                <el-table-column  width="100">
+                <el-table-column width="100">
                   <template #default="scope">
-                    <span class="message-title">{{scope.row.kehu}}</span>
+                    <span class="message-title">{{ scope.row.kehu }}</span>
                   </template>
                 </el-table-column>
                 <el-table-column prop="chepai" width="100"></el-table-column>
-                <el-table-column prop="chexing" ></el-table-column>
+                <el-table-column prop="chexing"></el-table-column>
                 <el-table-column prop="date" width="180"></el-table-column>
                 <el-table-column prop="tag" width="180"></el-table-column>
               </el-table>
             </el-tab-pane>
             <el-tab-pane :label="`待施工(${twoData.length})`" name="second">
               <el-table :data="twoData" :show-header="false" style="width: 100%">
-                <el-table-column  width="100">
+                <el-table-column width="100">
                   <template #default="scope">
-                    <span class="message-title">{{scope.row.kehu}}</span>
+                    <span class="message-title">{{ scope.row.kehu }}</span>
                   </template>
                 </el-table-column>
                 <el-table-column prop="chepai" width="100"></el-table-column>
-                <el-table-column prop="chexing" ></el-table-column>
+                <el-table-column prop="chexing"></el-table-column>
                 <el-table-column prop="date" width="180"></el-table-column>
                 <el-table-column prop="tag" width="180"></el-table-column>
               </el-table>
             </el-tab-pane>
             <el-tab-pane :label="`施工中(${threeData.length})`" name="third">
               <el-table :data="threeData" :show-header="false" style="width: 100%">
-                <el-table-column  width="100">
+                <el-table-column width="100">
                   <template #default="scope">
-                    <span class="message-title">{{scope.row.kehu}}</span>
+                    <span class="message-title">{{ scope.row.kehu }}</span>
                   </template>
                 </el-table-column>
                 <el-table-column prop="chepai" width="100"></el-table-column>
-                <el-table-column prop="chexing" ></el-table-column>
+                <el-table-column prop="chexing"></el-table-column>
                 <el-table-column prop="date" width="180"></el-table-column>
                 <el-table-column prop="tag" width="180"></el-table-column>
               </el-table>
             </el-tab-pane>
             <el-tab-pane :label="`已完工(${fourData.length})`" name="four">
               <el-table :data="fourData" :show-header="false" style="width: 100%">
-                <el-table-column  width="100">
+                <el-table-column width="100">
                   <template #default="scope">
-                    <span class="message-title">{{scope.row.kehu}}</span>
+                    <span class="message-title">{{ scope.row.kehu }}</span>
                   </template>
                 </el-table-column>
                 <el-table-column prop="chepai" width="100"></el-table-column>
-                <el-table-column prop="chexing" ></el-table-column>
+                <el-table-column prop="chexing"></el-table-column>
                 <el-table-column prop="date" width="180"></el-table-column>
                 <el-table-column prop="tag" width="180"></el-table-column>
               </el-table>
@@ -142,35 +142,35 @@
         <el-card shadow="hover" class="mgb20" style="height:252px;">
           <div class="kuaijieMenu">
             <div class="list">
-              <img src="../assets/img/img.jpg" class="img" alt />
+              <img src="../assets/img/img.jpg" class="img" alt/>
               <div>维修开单</div>
             </div>
             <div class="list">
-              <img src="../assets/img/img.jpg" class="img" alt />
+              <img src="../assets/img/img.jpg" class="img" alt/>
               <div>维修开单</div>
             </div>
             <div class="list">
-              <img src="../assets/img/img.jpg" class="img" alt />
+              <img src="../assets/img/img.jpg" class="img" alt/>
               <div>维修开单</div>
             </div>
             <div class="list">
-              <img src="../assets/img/img.jpg" class="img" alt />
+              <img src="../assets/img/img.jpg" class="img" alt/>
               <div>维修开单</div>
             </div>
             <div class="list">
-              <img src="../assets/img/img.jpg" class="img" alt />
+              <img src="../assets/img/img.jpg" class="img" alt/>
               <div>维修开单</div>
             </div>
             <div class="list">
-              <img src="../assets/img/img.jpg" class="img" alt />
+              <img src="../assets/img/img.jpg" class="img" alt/>
               <div>维修开单</div>
             </div>
             <div class="list">
-              <img src="../assets/img/img.jpg" class="img" alt />
+              <img src="../assets/img/img.jpg" class="img" alt/>
               <div>维修开单</div>
             </div>
             <div class="list">
-              <img src="../assets/img/img.jpg" class="img" alt />
+              <img src="../assets/img/img.jpg" class="img" alt/>
               <div>维修开单</div>
             </div>
           </div>
@@ -203,26 +203,14 @@
         </el-card>
       </el-col>
     </el-row>
-    <!-- <el-row :gutter="20">
-            <el-col :span="12">
-                <el-card shadow="hover">
-                    <schart ref="bar" class="schart" canvasId="bar" :options="options"></schart>
-                </el-card>
-            </el-col>
-            <el-col :span="12">
-                <el-card shadow="hover">
-                    <schart ref="line" class="schart" canvasId="line" :options="options2"></schart>
-                </el-card>
-            </el-col>
-    </el-row>-->
   </div>
 </template>
 
 <script>
-// import { home } from "../api/home/index.js";
+import { getUserInfo } from "../api/index";
 // import Schart from "vue-schart";
 export default {
-  name: "dashboard",
+  name: "index",
   data() {
     return {
       message: "first",
@@ -230,73 +218,73 @@ export default {
       // 全部订单
       oneData: [
         {
-          kehu:'马先生',
-          chepai:'陕A45621',
-          chexing:'科沃兹************',
+          kehu: '马先生',
+          chepai: '陕A45621',
+          chexing: '科沃兹************',
           date: "2018-04-19 20:00:00",
-          tag:'未施工'
+          tag: '未施工'
         },
         {
-            kehu:'马先生',
-          chepai:'陕A45621',
-          chexing:'科沃兹************',
+          kehu: '马先生',
+          chepai: '陕A45621',
+          chexing: '科沃兹************',
           date: "2018-04-19 20:00:00",
-          tag:'未施工'
+          tag: '未施工'
         }
       ],
-       // 待施工
+      // 待施工
       twoData: [
         {
-          kehu:'马先生',
-          chepai:'陕A45621',
-          chexing:'科沃兹************',
+          kehu: '马先生',
+          chepai: '陕A45621',
+          chexing: '科沃兹************',
           date: "2018-04-19 20:00:00",
-          tag:'未施工'
+          tag: '未施工'
         },
         {
-            kehu:'呃呃呃',
-          chepai:'陕A45621',
-          chexing:'科沃兹************',
+          kehu: '呃呃呃',
+          chepai: '陕A45621',
+          chexing: '科沃兹************',
           date: "2018-04-19 20:00:00",
-          tag:'未施工'
+          tag: '未施工'
         }
       ],
-       // 施工中
+      // 施工中
       threeData: [
         {
-          kehu:'嗡嗡嗡',
-          chepai:'陕A45621',
-          chexing:'科沃兹************',
+          kehu: '嗡嗡嗡',
+          chepai: '陕A45621',
+          chexing: '科沃兹************',
           date: "2018-04-19 20:00:00",
-          tag:'未施工'
+          tag: '未施工'
         },
         {
-            kehu:'顶顶顶',
-          chepai:'陕A45621',
-          chexing:'科沃兹************',
+          kehu: '顶顶顶',
+          chepai: '陕A45621',
+          chexing: '科沃兹************',
           date: "2018-04-19 20:00:00",
-          tag:'未施工'
+          tag: '未施工'
         }
       ],
-       // 已完工
+      // 已完工
       fourData: [
         {
-          kehu:'力王',
-          chepai:'陕A45621',
-          chexing:'科沃兹************',
+          kehu: '力王',
+          chepai: '陕A45621',
+          chexing: '科沃兹************',
           date: "2018-04-19 20:00:00",
-          tag:'未施工'
+          tag: '未施工'
         },
         {
-            kehu:'阿斯顿',
-          chepai:'陕A45621',
-          chexing:'科沃兹************',
+          kehu: '阿斯顿',
+          chepai: '陕A45621',
+          chexing: '科沃兹************',
           date: "2018-04-19 20:00:00",
-          tag:'未施工'
+          tag: '未施工'
         }
       ],
-     
-     
+
+
       options: {
         type: "bar",
         title: {
@@ -343,11 +331,16 @@ export default {
     };
   },
   mounted() {
-    // home(
-    //     {username:JSON.parse(sessionStorage.getItem('sessionId'))}
-    // ).then(res => {
-    //   console.log(res)
-    // })
+    getUserInfo(
+        {data:"asd"}
+    ).then(res => {
+      if(res.status!==200){
+        this.$message.error(res.data)
+        this.$router.push('/login')
+        return
+      }
+      console.log(res)
+    })
   },
   components: {
     // Schart
@@ -368,7 +361,7 @@ export default {
       this.data.forEach((item, index) => {
         const date = new Date(now - (6 - index) * 86400000);
         item.name = `${date.getFullYear()}/${date.getMonth() +
-          1}/${date.getDate()}`;
+        1}/${date.getDate()}`;
       });
     },
     // handleRead(index) {
@@ -497,11 +490,13 @@ export default {
   width: 100%;
   height: 300px;
 }
+
 .kuaijieMenu {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
 }
+
 .kuaijieMenu .list {
   display: flex;
   width: 20%;
@@ -509,12 +504,14 @@ export default {
   justify-items: center;
   flex-direction: column;
 }
+
 .kuaijieMenu .img {
   width: 50px;
   height: 50px;
   margin-top: 20px;
   border-radius: 50%;
 }
+
 .tongzhi .list {
   color: #409eff;
   display: flex;

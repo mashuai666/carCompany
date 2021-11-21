@@ -4,20 +4,20 @@ import Home from "../views/Home.vue";
 const routes = [
     {
         path: '/',
-        redirect: '/dashboard'
+        redirect: '/index'
     }, {
         path: "/",
         name: "Home",
         component: Home,
         children: [
             {
-                path: "/dashboard",
-                name: "dashboard",
+                path: "/index",
+                name: "index",
                 meta: {
                     title: '系统首页'
                 },
                 component: () => import (
-                "../views/Dashboard.vue")
+                "../views")
             }, 
             {
                 path: "/weiXiuKaiDan",
@@ -246,7 +246,7 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
     document.title = `${to.meta.title} | vue-manage-system`;
-    const role = sessionStorage.getItem('sessionId');
+    const role = sessionStorage.getItem('token');
     if (!role && to.path !== '/login') {
         next('/login');
     } else if (to.meta.permission) {

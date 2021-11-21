@@ -20,14 +20,13 @@ service.interceptors.request.use(
 service.interceptors.response.use(
     response => {
         if (response.status === 200) {
-            return response.data;
-        } else {
+            return response;
+        }  else {
             Promise.reject();
         }
     },
     error => {
-        console.log(error);
-        return Promise.reject();
+        return error.response
     }
 );
 

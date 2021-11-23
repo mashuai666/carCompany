@@ -8,8 +8,10 @@ import Antd from 'ant-design-vue';
 import 'ant-design-vue/dist/antd.css';
 import print from 'vue3-print-nb'
 import  axios  from 'axios'
+import  moment  from 'moment'
 const app = createApp(App)
 app.config.globalProperties.$http = axios
+app.config.globalProperties.$moment = moment
 app.use(Antd);
 app.use(print)
 installElementPlus(app)

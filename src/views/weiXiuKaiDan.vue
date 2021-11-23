@@ -57,10 +57,10 @@
               class="input-with-select"
           >
             <template v-slot:prepend>
-              <el-select v-model="select" placeholder="陕A" style="width:70px">
-                <el-option label="陕B" value="1"></el-option>
-                <el-option label="陕C" value="2"></el-option>
-                <el-option label="陕D" value="3"></el-option>
+              <el-select v-model="carNumberSelect" placeholder="陕A" style="width:70px">
+                <el-option label="陕A" value="陕A"></el-option>
+                <el-option label="陕U" value="陕U"></el-option>
+                <el-option label="陕U" value="0"></el-option>
               </el-select>
             </template>
           </el-input>
@@ -316,7 +316,7 @@
         </template>
       </el-dialog>
 
-<!--      最底部确认条-->
+      <!--      最底部确认条-->
       <el-card>
         <div class="botCard">
           <div>总计：<span style="color:red;font-weight: bold;font-size: 20px">￥{{
@@ -330,9 +330,10 @@
         </div>
       </el-card>
 
-<!--     确认的弹出框-->
+      <!--     确认的弹出框-->
       <el-dialog title="提交成功" v-model="tiJiaoDialog" width="50%">
-        <div>订单提交成功，当前状态为：<span style="color: #20a0ff">[待施工]</span> </div><br/>
+        <div>订单提交成功，当前状态为：<span style="color: #20a0ff">[待施工]</span></div>
+        <br/>
         <div>可在 <span style="color: #20a0ff;text-decoration: underline;cursor: pointer">订单中心-待施工</span> 中进行查看</div>
         <div>点击 确定 跳转至首页</div>
         <template v-slot:footer>
@@ -343,57 +344,57 @@
         </template>
       </el-dialog>
 
-<!--      结算弹出框-->
-      <el-dialog lock-scroll='false'   v-model="jieSuanDialog" width="50%">
-       <div class="jieSuanTop">
-         <div class="number">陕A-10000</div>
-         <div class="name">马帅帅</div>
-       </div>
+      <!--      结算弹出框-->
+      <el-dialog lock-scroll='false' v-model="jieSuanDialog" width="50%">
+        <div class="jieSuanTop">
+          <div class="number">陕A-10000</div>
+          <div class="name">马帅帅</div>
+        </div>
         <div class="jieSuanMid">
           <el-card class="card1">
             <h3>结算信息</h3><br>
-            <el-form  :model="totalMoney" label-width="80px">
-              <el-form-item size="mini"  label="服务费用">
+            <el-form :model="totalMoney" label-width="80px">
+              <el-form-item size="mini" label="服务费用">
                 <el-input disabled v-model="totalMoney.fuWu"></el-input>
               </el-form-item>
-              <el-form-item  size="mini" label="商品费用">
+              <el-form-item size="mini" label="商品费用">
                 <el-input disabled v-model="totalMoney.shangPin"></el-input>
-              </el-form-item >
-              <el-form-item  size="mini" label="附加费用">
+              </el-form-item>
+              <el-form-item size="mini" label="附加费用">
                 <el-input disabled v-model="totalMoney.fuJia"></el-input>
               </el-form-item>
-              <el-form-item  size="mini" label="总   计">
+              <el-form-item size="mini" label="总   计">
                 <el-input disabled v-model="totalMoneys"></el-input>
               </el-form-item>
             </el-form>
           </el-card>
           <el-card class="card2">
             <h3>收款信息</h3><br>
-            <el-form  :model="shouKuanInfo" label-width="80px">
-              <el-form-item  size="mini" label="结算时间">
+            <el-form :model="shouKuanInfo" label-width="80px">
+              <el-form-item size="mini" label="结算时间">
                 <el-date-picker
                     type="datetime"
                     v-model="shouKuanInfo.dataTime"
                     placeholder="选择日期时间">
                 </el-date-picker>
               </el-form-item>
-              <el-form-item size="mini"  label="收款方式">
-                <el-select v-model="shouKuanInfo.method"  placeholder="选择收款方式">
+              <el-form-item size="mini" label="收款方式">
+                <el-select v-model="shouKuanInfo.method" placeholder="选择收款方式">
                   <el-option label="微信" value="1"></el-option>
                   <el-option label="支付宝" value="2"></el-option>
                   <el-option label="现金" value="3"></el-option>
                   <el-option label="其他" value="4"></el-option>
                 </el-select>
               </el-form-item>
-              <el-form-item   size="mini" label="收款人员">
-                <el-select v-model="shouKuanInfo.people"  placeholder="选择收款人员">
+              <el-form-item size="mini" label="收款人员">
+                <el-select v-model="shouKuanInfo.people" placeholder="选择收款人员">
                   <el-option label="小王" value="1"></el-option>
                   <el-option label="小李" value="2"></el-option>
                   <el-option label="小张" value="3"></el-option>
                 </el-select>
-              </el-form-item >
-              <el-form-item  size="mini" label="结算备注">
-                <el-input  v-model="shouKuanInfo.beiZhu"></el-input>
+              </el-form-item>
+              <el-form-item size="mini" label="结算备注">
+                <el-input v-model="shouKuanInfo.beiZhu"></el-input>
               </el-form-item>
             </el-form>
           </el-card>
@@ -405,7 +406,6 @@
           </span>
         </template>
       </el-dialog>
-
 
 
     </div>
@@ -482,6 +482,9 @@ export default {
             }
           ],
 
+
+
+      carNumberSelect:'',
 
       // 客户表单
       keHuForm: {
@@ -647,15 +650,15 @@ export default {
         fuJia: 3
       },
       // 提交成功的弹出框
-      tiJiaoDialog:false,
+      tiJiaoDialog: false,
       // 结算弹出框
-      jieSuanDialog:false,
+      jieSuanDialog: false,
       // 收款信息
-      shouKuanInfo:{
-        dataTime:'',
-        method:'',
-        people:'',
-        beiZhu:''
+      shouKuanInfo: {
+        dataTime: '',
+        method: '',
+        people: '',
+        beiZhu: ''
       }
 
     };
@@ -969,7 +972,11 @@ export default {
             if (valid) {
               if (this.fuWuData.length) {
                 // 验证所有必填项已经正确 进行提交操作 打开提交弹出框
-                this.tiJiaoDialog = true
+                // this.tiJiaoDialog = true
+                console.log(this.keHuForm)
+                console.log(this.carForm)
+                console.log(this.fuWuData)
+
 
               } else {
                 this.$message.error('没有填写服务项目')
@@ -987,23 +994,23 @@ export default {
       });
     },
     // 完工并结算
-    wanGong(){
+    wanGong() {
       this.$confirm('完工结算后订单将无法修改，是否继续?', '完工并结算', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
         // 关闭提交弹出框
-        this.tiJiaoDialog =false
+        this.tiJiaoDialog = false
         // 打开结算弹框
-        this.jieSuanDialog =true
+        this.jieSuanDialog = true
 
       })
     },
     // 订单完成弹出框确定
-    dingDanWanCheng(){
+    dingDanWanCheng() {
       this.$message.success('操作成功')
-      this.tiJiaoDialog =false
+      this.tiJiaoDialog = false
       // 关闭当前标签页
       this.$store.commit("closeCurrentTag", {
         $router: this.$router,
@@ -1013,7 +1020,7 @@ export default {
       this.$router.push('dashboard')
     },
     // 结算弹框中的结算按钮
-    jieSuan(){
+    jieSuan() {
       this.$confirm('确认结算吗', '结算', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -1021,15 +1028,9 @@ export default {
       }).then(() => {
         this.$router.push('/weiXiuDan')
         // 关闭提交弹出框
-        this.jieSuanDialog =false
+        this.jieSuanDialog = false
       })
     },
-
-
-
-
-
-
 
 
     submitForm(formName) {
@@ -1089,8 +1090,8 @@ export default {
   },
   computed: {
     // 合计价格
-    totalMoneys(){
-      return this.totalMoney.fuJia +  this.totalMoney.fuWu +  this.totalMoney.shangPin
+    totalMoneys() {
+      return this.totalMoney.fuJia + this.totalMoney.fuWu + this.totalMoney.shangPin
     },
 
     unreadNum() {
@@ -1126,7 +1127,8 @@ h2 {
   display: flex;
   justify-content: space-between;
 }
-.jieSuanTop{
+
+.jieSuanTop {
   display: flex;
   align-items: center;
   margin: 0 auto;
@@ -1136,15 +1138,18 @@ h2 {
   justify-content: space-between;
   color: #409EFF;
 }
-.jieSuanMid{
+
+.jieSuanMid {
   display: flex;
   margin-top: 10px;
   justify-content: space-between;
 }
-.jieSuanMid .card1{
+
+.jieSuanMid .card1 {
   width: 39%;
 }
-.jieSuanMid .card2{
+
+.jieSuanMid .card2 {
   width: 59%;
 }
 

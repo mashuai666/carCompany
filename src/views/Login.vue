@@ -55,18 +55,19 @@ export default {
     },
     methods: {
         submitForm() {
-
+            // 验证是否输入完整
             this.$refs.login.validate(valid => {
                 if (valid) {
+                  // 登录获取用户信息
                   login(this.param).then(res => {
-                    // sessionStorage.setItem("sessionId", JSON.stringify(res.result));
-                    // this.$router.push('/dashboard')
                     if(res.status!==200){
                       this.$message.error(res.data)
                       return
                     }
                     sessionStorage.setItem("token", res.data.token);
                     sessionStorage.setItem("userInfo", res.data.userInfo);
+                    this.$message.success('登录成功')
+                    // 跳转首页
                     this.$router.push('/index')
                   })
                 } else {

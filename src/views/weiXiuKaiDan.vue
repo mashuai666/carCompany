@@ -12,47 +12,39 @@
     <div class="container">
       <h2 id="keHuForm">客户信息</h2>
       <el-form
-          :model="keHuForm"
-          :rules="keHuRules"
-          ref="keHuForm"
+          :model="totalForm"
+          :rules="totalRules"
+          ref="totalForm"
           label-width="120px"
           class="demo-ruleForm"
           :inline="true"
       >
         <el-form-item label="手机号" prop="phone">
-          <el-input v-model="keHuForm.phone" placeholder="手机号"></el-input>
+          <el-input v-model="totalForm.phone" placeholder="手机号"></el-input>
         </el-form-item>
         <el-form-item label="姓名" prop="name">
-          <el-input v-model="keHuForm.name" placeholder="姓名"></el-input>
+          <el-input v-model="totalForm.name" placeholder="姓名"></el-input>
         </el-form-item>
         <el-form-item label="生日">
           <el-form-item prop="birth">
             <el-date-picker
                 type="date"
                 placeholder="选择日期"
-                v-model="keHuForm.birth"
+                v-model="totalForm.birth"
                 style="width: 100%;"
             ></el-date-picker>
           </el-form-item>
         </el-form-item>
         <el-form-item label="客户备注" prop="beiZhu">
-          <el-input v-model="keHuForm.beiZhu" placeholder="备注信息"></el-input>
+          <el-input v-model="totalForm.uRemark" placeholder="备注信息"></el-input>
         </el-form-item>
-      </el-form>
 
-      <h2 id="carForm">车辆信息</h2>
-      <el-form
-          :model="carForm"
-          :rules="carRules"
-          ref="carForm"
-          label-width="120px"
-          class="demo-ruleForm"
-          :inline="true"
-      >
-        <el-form-item label="车牌号" required prop="number">
+        <h2 id="carForm">车辆信息</h2>
+
+        <el-form-item label="车牌号" required prop="cNumber">
           <el-input
               placeholder="车牌后五位"
-              v-model="carForm.number"
+              v-model="totalForm.cNumber"
               style="width:200px"
               class="input-with-select"
           >
@@ -66,56 +58,57 @@
           </el-input>
         </el-form-item>
         <el-form-item label="VIN码" prop="vin">
-          <el-input placeholder="输入完毕点击放大镜查询" v-model="carForm.vin" class="input-with-select">
+          <el-input placeholder="输入完毕点击放大镜查询" v-model="totalForm.vin" class="input-with-select">
             <template v-slot:append>
               <el-button icon="el-icon-search"></el-button>
             </template>
           </el-input>
         </el-form-item>
         <br/>
-        <el-form-item label="目前里程">
-          <el-input v-model="carForm.liCheng" type="number"></el-input>
+        <el-form-item label="目前里程" prop="nowMileage">
+          <el-input v-model="totalForm.nowMileage" type="number"></el-input>
         </el-form-item>
-        <el-form-item label="下次保养里程">
-          <el-input v-model="carForm.nextLiCheng" p></el-input>
+        <el-form-item label="下次保养里程" prop="nextMileage">
+          <el-input v-model="totalForm.nextMileage" type="number" ></el-input>
         </el-form-item>
         <el-form-item label="下次保养日期">
           <el-form-item>
             <el-date-picker
                 type="date"
                 placeholder="选择日期"
-                v-model="carForm.nextBaoYang"
+                v-model="totalForm.nextDate"
                 style="width: 100%;"
             ></el-date-picker>
           </el-form-item>
         </el-form-item>
         <br/>
         <el-form-item label="车辆备注">
-          <el-input v-model="carForm.beiZhu" placeholder="备注"></el-input>
+          <el-input v-model="totalForm.cRemark" placeholder="备注"></el-input>
         </el-form-item>
       </el-form>
 
       <h2 id="fuWuData">服务项目</h2>
       <div class="fuWuMenu">
-        <el-button size="small" type="primary" @click="fuWuDialogShow = true">选择服务项目</el-button>
+        <!--        <el-button size="small" type="primary" @click="fuWuDialogShow = true">选择服务项目</el-button>-->
+        <el-button size="small" type="primary" @click="selectServe">选择服务项目</el-button>
         <el-button size="small" type="primary" @click="fuWuDialogShowB = true">新增服务项目</el-button>
       </div>
       <el-table :data="fuWuData" border :summary-method="xiangMuHeJiRules" show-summary
                 style="width: 100%;marginTop:15px;margin-bottom:25px">
         <el-table-column type="index" width="50"></el-table-column>
         <el-table-column prop="name" label="项目名称"></el-table-column>
-        <el-table-column prop="jinE" width="100" label="金额/元"></el-table-column>
-        <el-table-column prop="youHui" width="100" label="优惠/元"></el-table-column>
-        <el-table-column prop="yingShou" width="100" label="应收/元"></el-table-column>
+        <el-table-column prop="money" width="100" label="金额/元"></el-table-column>
+        <el-table-column prop="sale" width="100" label="优惠/元"></el-table-column>
+        <el-table-column prop="receivable" width="100" label="应收/元"></el-table-column>
 
         <el-table-column prop="people" width="150" label="施工人员">
           <template v-slot="scope">
             <el-select v-model="scope.row[scope.column.property]" @change="changePeople" placeholder="请选择">
               <el-option
-                  v-for="item in peoples"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
+                  v-for="item in employees"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id">
               </el-option>
             </el-select>
           </template>
@@ -138,9 +131,9 @@
         <el-table :data="fuWuDatas" border @selection-change="fuWuDialogSelection" style="width: 100%;marginTop:25px">
           <el-table-column type="selection" width="55"></el-table-column>
           <el-table-column prop="name" label="项目名称"></el-table-column>
-          <el-table-column prop="jinE" width="100" label="金额/元"></el-table-column>
-          <el-table-column prop="youHui" width="100" label="优惠/元"></el-table-column>
-          <el-table-column prop="yingShou" width="100" label="应收/元"></el-table-column>
+          <el-table-column prop="money" width="100" label="金额/元"></el-table-column>
+          <el-table-column prop="sale" width="100" label="优惠/元"></el-table-column>
+          <el-table-column prop="receivable" width="100" label="应收/元"></el-table-column>
           <el-table-column label="操作" width="100">
             <template v-slot="scope">
               <el-button
@@ -153,7 +146,10 @@
             </template>
           </el-table-column>
         </el-table>
-
+        <el-pagination page-size="7" style="text-align: center" @current-change="getServes" background
+                       layout="prev, pager, next"
+                       :total="serveTotal">
+        </el-pagination>
         <template v-slot:footer>
           <span class="dialog-footer">
             <el-button @click="fuWuDialogShow = false">取 消</el-button>
@@ -186,23 +182,23 @@
 
       <h2>使用商品</h2>
       <div class="shangpinMenu">
-        <el-button size="small" type="primary" @click="shangPinDialogShow = true">选择使用商品</el-button>
+        <el-button size="small" type="primary" @click="selectMountings">选择使用商品</el-button>
       </div>
       <el-table :data="shangPinData" border show-summary :summary-method="shangPinHeJiRules"
                 style="width: 100%;marginTop:15px;margin-bottom:25px">
         <el-table-column type="index" width="50"></el-table-column>
         <el-table-column prop="name" label="商品名称"></el-table-column>
-        <el-table-column prop="pinPai" label="品牌"></el-table-column>
+        <el-table-column prop="brand" label="品牌"></el-table-column>
         <el-table-column prop="danJia" width="100" label="销售单价/元"></el-table-column>
         <el-table-column prop="shuLiang" width="100" label="数量">
           <template v-slot="scope">
-            <el-input type="number" min="1" v-model="scope.row.shuLiang"
+            <el-input type="number" min="1" :max="scope.row.count" v-model="scope.row.shuLiang"
                       @change="changeShangPinCount(scope.row,scope.$index)" placeholder="请选择">
             </el-input>
           </template>
         </el-table-column>
         <el-table-column prop="zongJia" width="100" label="总价"></el-table-column>
-        <el-table-column prop="cheXing" label="适用车型"></el-table-column>
+        <el-table-column prop="carType" label="适用车型"></el-table-column>
         <el-table-column label="操作" width="100">
           <template v-slot="scope">
             <el-button size="mini" type="danger" @click="shangPinDataDelete(scope.$index, scope.row)">删除</el-button>
@@ -247,14 +243,14 @@
                   style="width: 100%;marginTop:25px">
           <el-table-column type="selection" width="55"></el-table-column>
           <el-table-column prop="name" label="商品名称"></el-table-column>
-          <el-table-column prop="pinPai" label="品牌"></el-table-column>
-          <el-table-column prop="guiGeXingHao" label="规格型号"></el-table-column>
-          <el-table-column prop="chuChangBianMa" label="出场编码"></el-table-column>
-          <el-table-column prop="Oe" label="OE号"></el-table-column>
-          <el-table-column prop="xiaoShouJia" width="100" label="销售价/元"></el-table-column>
-          <el-table-column prop="kuCun" width="100" label="库存"></el-table-column>
-          <el-table-column prop="danWei" width="100" label="单位"></el-table-column>
-          <el-table-column prop="cheXing" label="适用车型"></el-table-column>
+          <el-table-column prop="brand" label="品牌"></el-table-column>
+          <el-table-column prop="modelVersion" label="规格型号"></el-table-column>
+          <el-table-column prop="factoryCode" label="出厂编码"></el-table-column>
+          <el-table-column prop="oe" label="OE号"></el-table-column>
+          <el-table-column prop="salePrice" width="100" label="销售价/元"></el-table-column>
+          <el-table-column prop="count" width="100" label="库存"></el-table-column>
+          <el-table-column prop="units" width="100" label="单位"></el-table-column>
+          <el-table-column prop="carType" label="适用车型"></el-table-column>
           <el-table-column label="操作" width="100">
             <template v-slot="scope">
               <el-button
@@ -319,9 +315,7 @@
       <!--      最底部确认条-->
       <el-card>
         <div class="botCard">
-          <div>总计：<span style="color:red;font-weight: bold;font-size: 20px">￥{{
-              totalMoneys
-            }}</span> 元
+          <div>总计：<span style="color:red;font-weight: bold;font-size: 20px">￥{{ totalMoneys }}</span> 元
           </div>
           <div>
             <el-button type="primary" plain @click="tiTjiao">提交</el-button>
@@ -413,6 +407,11 @@
 </template>
 
 <script>
+// import moment from 'moment'
+// eslint-disable-next-line no-unused-vars
+import {getEmployees, getServe} from '@/api/sheZhiZhongXin'
+import {getMountings} from '@/api/kuCunZhongXin'
+
 export default {
   name: "weiXiuKaiDan",
   data() {
@@ -440,61 +439,41 @@ export default {
       }],
       dialogVisible: false,
       dialogVisibleB: false,
-      tableData2: [
-        {
-          name: "",
-          amount1: "",
-          amount2: "",
-          amount3: ""
-        },
-      ],
-      tableData:
-          [
-            {
-              name: "更换机油",
-              amount1: "1",
-              amount2: "30",
-              amount3: "马帅帅"
-            },
-            {
-              name: "王小虎",
-              amount1: "2",
-              amount2: "4.43",
-              amount3: 12
-            },
-            {
-              name: "王小虎",
-              amount1: "10",
-              amount2: "1.9",
-              amount3: 9
-            },
-            {
-              name: "王小虎",
-              amount1: "1",
-              amount2: "2.2",
-              amount3: 17
-            },
-            {
-              name: "王小虎",
-              amount1: "12",
-              amount2: "4.1",
-              amount3: 15
-            }
-          ],
-
-
-
-      carNumberSelect:'',
-
-      // 客户表单
-      keHuForm: {
+      // --------------------------------------------------------------------------------------------------------------------------
+      // 所有表格数据
+      totalForm: {
+        // 手机号
         phone: '',
-        name: "",
-        birth: "",
-        beiZhu: ''
+        // 姓名
+        name: '',
+        // 生日
+        birth: '',
+        // 客户备注
+        uRemark: '',
+        // 车牌号
+        cNumber: '',
+        // vin
+        vin: '',
+        // 当前里程
+        nowMileage: '',
+        // 下次里程
+        nextMileage: '',
+        // 下次日期
+        nextDate: '',
+        // 车辆备注
+        cRemark: '',
+        // 服务项目
+        serveList: '',
+        // 使用配件
+        mountingList: '',
+        // 附加费
+        extraList: '',
+        // 创建时间
+        createTime: '',
       },
-      // 客户验证规则
-      keHuRules: {
+      carNumberSelect: '',
+      // 验证规则
+      totalRules: {
         phone: [
           {required: true, message: "请输入手机号", trigger: "blur"},
           {min: 11, max: 11, message: "请输入11位手机号", trigger: "blur"}
@@ -502,141 +481,49 @@ export default {
         name: [
           {required: true, message: "请输入姓名", trigger: "blur"},
           {min: 1, max: 4, message: "请输入正确姓名", trigger: "blur"}
-        ]
-      },
-      // 车辆表单
-      carForm: {
-        number: '',
-        vin: '',
-        liCheng: '',
-        nextLiCheng: '',
-        nextBaoYang: '',
-        pinPai: '',
-        shengChanShang: '',
-        cheDai: '',
-        cheXing: '',
-        zhiZaoDate: '',
-        bianSuQi: '',
-        faDongJi: '',
-        gongLv: '',
-        paiLiang: '',
-        ranLiao: '',
-        cheShen: '',
-        houZhiDong: '',
-        zhuChe: '',
-        quDong: "",
-        beiZhu: ''
-      },
-      // 车辆验证规则
-      carRules: {
-        number: [
+        ],
+        cNumber: [
           {required: true, message: "请输入车牌号", trigger: "blur"},
           {min: 5, max: 5, message: "请输入5位车牌号", trigger: "blur"}
         ],
         vin: [
           {min: 17, max: 17, message: "请输入17位vin码", trigger: "blur"}
         ],
-      },
-      // 保险表单
-      baoXianForm: {
-        company: '',
-        nianShenDate: '',
-        nextDate: '',
-        qianXiangNumber: '',
-        qianXianEnd: '',
-        shangYeXianNumber: '',
-        shangYeXianEnd: '',
+        nowMileage:[
+          {min: 1, max: 6, message: "目前里程数异常", trigger: "blur"}
+        ],
+        nextMileage:[
+          {min: 1, max: 6, message: "下次保养里程数异常", trigger: "blur"}
+        ]
+
       },
       // 是否打开服务项目中的弹出框
       fuWuDialogShow: false,
       fuWuDialogShowB: false,
+      // 服务项目弹出框的分页器
+      serveTotal: '',
+      // 企业已经设置好的服务项目
+      fuWuDatas: [],
       // 服务项目表格数据
       fuWuData: [],
-      // 工人姓名
-      peoples: [
-        {
-          value: '小王',
-          label: '小王'
-        }, {
-          value: '小李',
-          label: '小李'
-        }, {
-          value: '小马',
-          label: '小马'
-        }
-      ],
-      // 企业已经设置好的服务项目
-      fuWuDatas: [
-        {
-          name: '更换雨刷器a',
-          jinE: 100,
-          youHui: 10,
-          yingShou: 90,
-        },
-        {
-          name: '更换雨刷器ab',
-          jinE: 100,
-          youHui: 10,
-          yingShou: 90,
-        }
-      ],
+      // 员工信息
+      employees: [],
+      // 控制选择商品弹框的显示隐藏
+      shangPinDialogShow: false,
+      // 商品库存数据
+      shangPinDatas: [],
+      // 商品表格数据
+      shangPinData: [],
+      // --------------------------------------------------------------------------------------------------------------------------
       // 选择服务中多选框改变的值
       fuWuSelectionData: [],
       // 新增服务的值
       newFuWuData: {name: '', jinE: '', youHui: ''},
 
 
-      // 商品表格数据
-      shangPinData: [],
-      // 企业已经设置好的服务项目
-      shangPinDatas: [
-        {
-          name: '雨刷',
-          pinPai: '圣豆',
-          guiGeXingHao: 'H886',
-          chuChangBianMa: 'SD116215',
-          Oe: '123456789',
-          xiaoShouJia: '100',
-          kuCun: '10',
-          danWei: '对',
-          cheXing: '马自达'
-        },
-        {
-          name: '雨刷',
-          pinPai: '圣豆',
-          guiGeXingHao: 'H886',
-          chuChangBianMa: 'SD116215',
-          Oe: '123456789',
-          xiaoShouJia: '100',
-          kuCun: '10',
-          danWei: '对',
-          cheXing: '马自达'
-        }, {
-          name: '雨刷',
-          pinPai: '圣豆',
-          guiGeXingHao: 'H886',
-          chuChangBianMa: 'SD116215',
-          Oe: '123456789',
-          xiaoShouJia: '100',
-          kuCun: '10',
-          danWei: '对',
-          cheXing: '马自达'
-        }, {
-          name: '雨刷',
-          pinPai: '圣豆',
-          guiGeXingHao: 'H886',
-          chuChangBianMa: 'SD116215',
-          Oe: '123456789',
-          xiaoShouJia: '100',
-          kuCun: '10',
-          danWei: '对',
-          cheXing: '马自达'
-        },
-      ],
       // 选择商品中多选框改变的值
       shangPinSelectionData: [],
-      // 控制选择商品弹框的显示隐藏
-      shangPinDialogShow: false,
+
 
       // 附加费表格数据
       fuJiaData: [],
@@ -663,7 +550,62 @@ export default {
 
     };
   },
+  mounted() {
+    this.getemployees()
+  },
   methods: {
+    // 获取员工信息
+    getemployees() {
+      getEmployees().then(res => {
+        if (res.status !== 200) {
+          this.$message.error(res.data)
+          return
+        }
+        this.employees = res.data
+        console.log(res.data)
+        // this.peopleManagement = res.data
+      })
+    },
+    // 打开选择服务项目时获取数据
+    selectServe() {
+      // 打开弹窗
+      this.fuWuDialogShow = true
+      // 获取数据
+      this.getServes(1)
+    },
+    // 打开选择商品是获取数据
+    selectMountings() {
+      // 打开弹窗
+      this.shangPinDialogShow = true
+      // 获取数据
+      this.getmounting(1)
+    },
+
+
+    // 获取商品数据
+    getmounting(currentPage) {
+      getMountings({currentPage}).then(res => {
+        if (res.status !== 200) {
+          this.$message.error(res.data)
+          return
+        }
+        this.shangPinDatas = res.data.data
+        console.log(res.data)
+      })
+    },
+
+    // 获取服务项目
+    getServes(currentPage) {
+      getServe({currentPage}).then(res => {
+        if (res.status !== 200) {
+          this.$message.error(res.data)
+          return
+        }
+        this.fuWuDatas = res.data.data
+        this.serveTotal = res.data.total
+        console.log(res.data)
+      })
+    },
     // 选择服务项目
     selectFuWu(e) {
       // e为选择的值
@@ -805,12 +747,11 @@ export default {
       })
     },
 
-
     // 选择商品
     selectShangPin(e) {
       let value = e
       value.shuLiang = 1
-      value.danJia = value.xiaoShouJia
+      value.danJia = value.salePrice
       value.zongJia = value.danJia * value.shuLiang
       this.shangPinData.push(value)
       this.shangPinDialogShow = false
@@ -893,7 +834,7 @@ export default {
         let value = this.shangPinSelectionData
         value.forEach((item, index) => {
           value[index].shuLiang = 1
-          value[index].danJia = value[index].xiaoShouJia
+          value[index].danJia = value[index].salePrice
           value[index].zongJia = value[index].shuLiang * value[index].danJia
         })
         this.shangPinData = this.shangPinData.concat(value)
@@ -966,32 +907,62 @@ export default {
 
     // 提交
     tiTjiao() {
-      this.$refs['keHuForm'].validate((valid) => {
-        if (valid) {
-          this.$refs['carForm'].validate(valid => {
-            if (valid) {
-              if (this.fuWuData.length) {
-                // 验证所有必填项已经正确 进行提交操作 打开提交弹出框
-                // this.tiJiaoDialog = true
-                console.log(this.keHuForm)
-                console.log(this.carForm)
-                console.log(this.fuWuData)
-
-
-              } else {
-                this.$message.error('没有填写服务项目')
-                document.getElementById('fuWuData').scrollIntoView();
-              }
-            } else {
-              this.$message.error('车牌号没有正确填写')
-              document.getElementById('carForm').scrollIntoView();
-            }
-          })
+      this.$refs['totalForm'].validate((valid, error) => {
+        if (!valid) {
+          let errorMessage = ''
+          for (let item in error) {
+            error[item].forEach(item => {
+              errorMessage += item.message + ' '
+            })
+          }
+          this.$message.error(errorMessage)
         } else {
-          this.$message.error('客户的姓名或手机号没有正确填写')
-          document.getElementById('keHuForm').scrollIntoView();
+          if (this.fuWuData.length === 0) {
+            this.$message.error('没有选择服务项目')
+          } else {
+            // console.log('this.totalForm')
+            // console.log(this.totalForm)
+            // 客户生日
+            console.log(new Date(this.totalForm.birth).getTime())
+            // 当前创建时间
+            console.log(new Date().getTime())
+            // 最终传递给后端的值
+            let params = this.totalForm
+            // 如果用户备注存在 转换为时间戳
+            if (params.birth !== '') {
+              params.birth = new Date(params.birth).getTime()
+            }
+            // 创建时间
+            params.createTime = new Date().getTime()
+            // 客户下次保养时间
+            if (params.nextDate !== '') {
+              params.nextDate = new Date(params.nextDate).getTime()
+            }
+
+            console.log('this.fuWuData')
+            console.log(this.fuWuData)
+            let serveList = ''
+            // 1,10.2.10,3.10    .分割 1为项目 10为员工
+            this.fuWuData.forEach((item)=>{
+              serveList += item.id + ','
+              if(item.people !==''){
+                serveList += item.people + '.'
+              }else{
+                serveList += 'N' + '.'
+              }
+            })
+            console.log(serveList)
+
+            // console.log('this.shangPinData')
+            // console.log(this.shangPinData)
+            // console.log('this.fuJiaData')
+            // console.log(this.fuJiaData)
+          }
         }
-      });
+        // if(valid){
+        //   console.log(valid)
+        // }
+      })
     },
     // 完工并结算
     wanGong() {
